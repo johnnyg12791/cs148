@@ -14,6 +14,38 @@ int win_width = 512;
 int win_height = 512;
 int draw_mode=1;
 
+
+void drawHalfArch( float translatex, float translatey, float color1, float color2, float color3 ){
+    glLoadIdentity();
+    glPushMatrix(); //push identity
+    
+    glTranslatef(translatex,translatey,0.f);
+    
+    glBegin(GL_TRIANGLE_STRIP);
+    
+    glColor3f(color1, color2, color3);
+    //Base
+    glVertex2f(0.1f,0.1f);
+    glVertex2f(0.2f,0.1f);
+    glVertex2f(0.1f,0.6f);
+    glVertex2f(0.2f,0.6f);
+    //Arch
+    glVertex2f(0.125f,0.7f);
+    glVertex2f(0.235f,0.725f);
+    glVertex2f(0.175f,0.77f);
+    glVertex2f(0.275f,0.8f);
+    glVertex2f(0.2f,0.84f);
+    glVertex2f(0.275f,0.9f);
+    glVertex2f(0.275f,0.8f);
+    glVertex2f(0.3f,0.91f);
+    glVertex2f(0.3f,0.82f);
+    
+    //Transform over the x axis at 0.3
+    
+    glEnd();
+}
+//as opposed to redrawing it, copy the previous image matrix
+
 void display( void )
 {
   glClear( GL_COLOR_BUFFER_BIT );
@@ -22,62 +54,17 @@ void display( void )
 
   switch(draw_mode){
       case 1:
-      {// Draw a point
-          glLoadIdentity();
-          glBegin(GL_TRIANGLE_STRIP);
           
-          glColor3f(1.f,0.f,0.f);
-          //Base
-          glVertex2f(0.1f,0.1f);
-          glVertex2f(0.2f,0.1f);
-          glVertex2f(0.1f,0.6f);
-          glVertex2f(0.2f,0.6f);
-          //Arch
-          glVertex2f(0.125f,0.7f);
-          glVertex2f(0.235f,0.725f);
-          glVertex2f(0.175f,0.77f);
-          glVertex2f(0.275f,0.8f);
-          glVertex2f(0.2f,0.84f);
-          glVertex2f(0.275f,0.9f);
-          glVertex2f(0.275f,0.8f);
-          glVertex2f(0.3f,0.91f);
-          glVertex2f(0.3f,0.82f);
+          drawHalfArch(0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
           
+          break;
           
+      case 2://Make another arch (or half arch)
           
-          /*
-          float leftx = 0.1;
-          float rightx = 0.2;
-          float y = 0.6;
-          
-          for (int i = 1; i <= 40; i++) {
-              if (i%2 == 1) {
-                  glVertex2f(leftx + i/100.0, y + i/100.0);
-              }else{
-                  glVertex2f(rightx + i/100.0, y + i/100.0);
-              }
-          }*/
-          
-          
+          drawHalfArch(0.1f, 0.1f, 1.0f, 1.0f, 0.0f);
 
           
-          glEnd();
-          break;
-
-          //glPointSize(8.);
-          //glColor3f(1.f,0.f,0.f);
-          //glBegin(GL_POINTS);
-          //glVertex3f(0.4f,0.4f,0.f);
-          //glEnd();
-          break;
-      }
-      case 2:// Draw a line
-          glLineWidth(4.);
-          glColor3f(0.f,1.f,0.f);
-          glBegin(GL_LINES);
-          glVertex3f(0.3f,0.3f,0.f);
-          glVertex3f(0.6f,0.6f,0.f);
-          glEnd();
+          
           break;
 
       case 3:// Draw a triangle
@@ -259,8 +246,12 @@ void reshape( int w, int h )
 
   // Question 3: What do the calls to glOrtho()
   // and glViewport() accomplish?
-  glOrtho( 0., 1., 0., 1., -1., 1. );
-  glViewport( 0, 0, w, h );
+  glOrtho( 0., 1., 0., 1., -1., 1. );//kind of like viewport....
+    //(left clip, right clip, bottom clip, top clip, near clip, far clip)
+    //This has the z's
+    //This is in [0,1] scale, where 1 is the size of the window
+    
+  glViewport( 0, 0, w, h );//as the window is resized, so is the "viewport" which is the area we have drawn in (and can see)//ie, if we have w/2, h/2 the viewport is 1/4 of the screen (bottom left).//This is in pixel scale
 
   win_width = w;
   win_height = h;
