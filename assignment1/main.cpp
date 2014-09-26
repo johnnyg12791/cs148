@@ -21,14 +21,56 @@ void display( void )
   glLoadIdentity();
 
   switch(draw_mode){
-      case 1:// Draw a point
-          glPointSize(8.);
+      case 1:
+      {// Draw a point
+          glLoadIdentity();
+          glBegin(GL_TRIANGLE_STRIP);
+          
           glColor3f(1.f,0.f,0.f);
-          glBegin(GL_POINTS);
-          glVertex3f(0.4f,0.4f,0.f);
+          //Base
+          glVertex2f(0.1f,0.1f);
+          glVertex2f(0.2f,0.1f);
+          glVertex2f(0.1f,0.6f);
+          glVertex2f(0.2f,0.6f);
+          //Arch
+          glVertex2f(0.125f,0.7f);
+          glVertex2f(0.235f,0.725f);
+          glVertex2f(0.175f,0.77f);
+          glVertex2f(0.275f,0.8f);
+          glVertex2f(0.2f,0.84f);
+          glVertex2f(0.275f,0.9f);
+          glVertex2f(0.275f,0.8f);
+          glVertex2f(0.3f,0.91f);
+          glVertex2f(0.3f,0.82f);
+          
+          
+          
+          /*
+          float leftx = 0.1;
+          float rightx = 0.2;
+          float y = 0.6;
+          
+          for (int i = 1; i <= 40; i++) {
+              if (i%2 == 1) {
+                  glVertex2f(leftx + i/100.0, y + i/100.0);
+              }else{
+                  glVertex2f(rightx + i/100.0, y + i/100.0);
+              }
+          }*/
+          
+          
+
+          
           glEnd();
           break;
 
+          //glPointSize(8.);
+          //glColor3f(1.f,0.f,0.f);
+          //glBegin(GL_POINTS);
+          //glVertex3f(0.4f,0.4f,0.f);
+          //glEnd();
+          break;
+      }
       case 2:// Draw a line
           glLineWidth(4.);
           glColor3f(0.f,1.f,0.f);
