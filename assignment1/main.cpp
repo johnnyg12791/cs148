@@ -14,16 +14,10 @@ int win_width = 512;
 int win_height = 512;
 int draw_mode=1;
 
-
-void drawHalfArch( float translatex, float translatey, float color1, float color2, float color3 ){
-    glLoadIdentity();
-    glPushMatrix(); //push identity
-    
-    glTranslatef(translatex,translatey,0.f);
-    
+//Took away the arguments, I think it's easier to call the transforms first, then draw seperately
+void drawHalfArch(){
     glBegin(GL_TRIANGLE_STRIP);
     
-    glColor3f(color1, color2, color3);
     //Base
     glVertex2f(0.1f,0.1f);
     glVertex2f(0.2f,0.1f);
@@ -41,7 +35,7 @@ void drawHalfArch( float translatex, float translatey, float color1, float color
     glVertex2f(0.3f,0.82f);
     
     //Transform over the x axis at 0.3
-    
+
     glEnd();
 }
 //as opposed to redrawing it, copy the previous image matrix
@@ -54,17 +48,50 @@ void display( void )
 
   switch(draw_mode){
       case 1:
+          //First half of red arch
+          glLoadIdentity();
+          glPushMatrix();
+          glTranslatef(0.0f, 0.0f, 0.0f);
+          glColor3f(1.0f, 0.0f, 0.0f);
+          drawHalfArch();
           
-          drawHalfArch(0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+          //Here is where I add the flipped arch
+          //There are 2 ways to do the translating, either before or after the scale
+          //from experimenting I found out it was 0.6f, or -0.6f if you do it after
+          //glTranslatef(0.6f, 0.0f, 0.0f);
+          glColor3f(1.0f, 1.0f, 0.0f);
+          glPushMatrix();
+          glScalef(-1.0f, 1.0f, 1.0f);
+          glTranslatef(-0.6f, 0.0f, 0.0f);
+          drawHalfArch();
+          //now the flipped arch is added
           
+          //when i pop this matrix, i remove the 2 things i did after i made the most recent push
+          //so, it will no longer scale and translate, and thus be back on the original place
+          //changed the color to white, so you can see that its back over the original spot
+          glPopMatrix();
+          glColor3d(1.0f, 1.0f, 1.0f);
+          drawHalfArch();
           break;
           
       case 2://Make another arch (or half arch)
-          
-          drawHalfArch(0.1f, 0.1f, 1.0f, 1.0f, 0.0f);
-
+            //***was just messing around with this, not really doing much
           
           
+          //drawHalfArch(0.1f, 0.1f, 1.0f, 1.0f, 0.0f);
+          glLineWidth(4.);
+          glLoadIdentity();
+          
+          //body
+          glPushMatrix(); //push identity
+          glTranslatef(0.5f,0.75f,0.f);
+          glBegin(GL_LINES);
+          glColor3f(1.f,1.f,1.f);
+          glVertex3f(0.0f,0.0f,0.f);
+          glVertex3f(0.0f,-0.25f,0.f);
+          //glPushM
+          //Now lets say I want to reflect this...(as a copy)
+          glEnd();
           break;
 
       case 3:// Draw a triangle
