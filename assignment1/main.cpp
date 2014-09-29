@@ -110,7 +110,7 @@ void display( void )
           //HELEN'S ADDITION: Here I'm trying to see what we can do with translating and scaling. I can't figure out how to get the second arch to appear behind the first one, however.
           glColor3f(0.0f, 1.0f, 1.0f);
           
-          glTranslatef(0.15f,0.05f,-0.5f);
+          glTranslatef(0.175f,0.05f,-0.5f);
           glScalef(0.85f, 0.85f, 0.f);
           drawLeftHalfArch();
           drawRightHalfArch();
@@ -123,13 +123,52 @@ void display( void )
           addSun();
           break;
 
-      case 3:// Draw a triangle
-          glColor3f(0.f,0.f,1.f);
+      case 3:
+          
+          //copy code from case 1
+          glLoadIdentity();
+          glPushMatrix();
+          //glColor3f(1.0f, 0.0f, 0.0f);
+          //drawLeftHalfArch();
+          //glColor3f(1.0f, 1.0f, 0.0f);
+          //drawRightHalfArch();
+          //now the flipped arch is added
+          
+          //HELEN'S ADDITION: Here I'm trying to see what we can do with translating and scaling. I can't figure out how to get the second arch to appear behind the first one, however.
+          
+          
+          glColor3f(0.0f, 1.0f, 0.0f);
+          
+          glTranslatef(0.35f,0.09f,-0.5f);
+          glScalef(0.7f, 0.7f, 0.f);
+          drawLeftHalfArch();
+          drawRightHalfArch();
+          glPopMatrix();
+          
+          
+          glPushMatrix();
+          glColor3f(0.0f, 1.0f, 1.0f);
+          
+          glTranslatef(0.175f,0.05f,-0.5f);
+          glScalef(0.85f, 0.85f, 0.f);
+          drawLeftHalfArch();
+          drawRightHalfArch();
+          glPopMatrix();
+          
+          glColor3f(1.0f, 0.0f, 0.0f);
+          drawLeftHalfArch();
+          drawRightHalfArch();
+          
+          addSun();
+          break;
+          
+          // Draw a triangle
+          /*glColor3f(0.f,0.f,1.f);
           glBegin(GL_TRIANGLES);
           glVertex3f(0.2f,0.1f,0.f);
           glVertex3f(0.4f,0.1f,0.f);
           glVertex3f(0.3f,0.2f,0.f);
-          glEnd();
+          glEnd();*/
           break;
 
       case 4:// Draw a quad
