@@ -74,6 +74,24 @@ void addSun(){
     glVertex3f(0.04f,0.84f,0.f);
     
     glEnd();
+    
+    glLineWidth(4.);
+    glBegin(GL_LINES);
+    glVertex3f(0.04f,0.94f,0.f);
+    glVertex3d(0.01f, 0.96f, 0.f);
+    glEnd();
+    glBegin(GL_LINES);
+    glVertex3f(0.16f,0.94f,0.f);
+    glVertex3d(0.19f, 0.96f, 0.f);
+    glEnd();
+    glBegin(GL_LINES);
+    glVertex3f(0.16f,0.84f,0.f);
+    glVertex3d(0.19f, 0.82f, 0.f);
+    glEnd();
+    glBegin(GL_LINES);
+    glVertex3f(0.04f,0.84f,0.f);
+    glVertex3d(0.01f, 0.82f, 0.f);
+    glEnd();
 }
 
 void display( void )
