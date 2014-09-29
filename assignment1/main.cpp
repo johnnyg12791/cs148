@@ -40,15 +40,9 @@ void drawLeftHalfArch(){
 }
 //as opposed to redrawing it, copy the previous image matrix
 void drawRightHalfArch(){
-    //Here is where I add the flipped arch
-    //There are 2 ways to do the translating, either before or after the scale
-    //from experimenting I found out it was 0.6f, or -0.6f if you do it after
-    //glTranslatef(0.6f, 0.0f, 0.0f);
     glPushMatrix();
-
     glScalef(-1.0f, 1.0f, 1.0f);
     glTranslatef(-0.6f, 0.0f, 0.0f);
-
     drawLeftHalfArch();
     glPopMatrix();
 }
@@ -63,7 +57,6 @@ void addSun(){
     //    glVertex3d(sin(i/8.0*2*M_PI), cos(i/8.0*2*M_PI), 0.0f);
     //}
     
-    
     glVertex3f(0.02f,0.88f,0.f);
     glVertex3f(0.04f,0.94f,0.f);
     glVertex3f(0.10f,0.98f,0.f);
@@ -74,6 +67,25 @@ void addSun(){
     glVertex3f(0.04f,0.84f,0.f);
     
     glEnd();
+    
+    glLineWidth(4.);
+    glBegin(GL_LINES);
+    glVertex3f(0.04f,0.94f,0.f);
+    glVertex3d(0.01f, 0.96f, 0.f);
+    glEnd();
+    glBegin(GL_LINES);
+    glVertex3f(0.16f,0.94f,0.f);
+    glVertex3d(0.19f, 0.96f, 0.f);
+    glEnd();
+    glBegin(GL_LINES);
+    glVertex3f(0.16f,0.84f,0.f);
+    glVertex3d(0.19f, 0.82f, 0.f);
+    glEnd();
+    glBegin(GL_LINES);
+    glVertex3f(0.04f,0.84f,0.f);
+    glVertex3d(0.01f, 0.82f, 0.f);
+    glEnd();
+    
 }
 
 void display( void )
