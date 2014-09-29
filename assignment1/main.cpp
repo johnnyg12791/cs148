@@ -36,8 +36,6 @@ void drawLeftHalfArch(){
     glVertex3f(0.3f,0.91f,-1.f);
     glVertex3f(0.3f,0.82f,-1.f);
     
-    //Transform over the x axis at 0.3
-
     glEnd();
 }
 //as opposed to redrawing it, copy the previous image matrix
@@ -47,8 +45,10 @@ void drawRightHalfArch(){
     //from experimenting I found out it was 0.6f, or -0.6f if you do it after
     //glTranslatef(0.6f, 0.0f, 0.0f);
     glPushMatrix();
+
     glScalef(-1.0f, 1.0f, 1.0f);
     glTranslatef(-0.6f, 0.0f, 0.0f);
+
     drawLeftHalfArch();
     glPopMatrix();
 }
@@ -91,7 +91,6 @@ void display( void )
           //glTranslatef(0.0f, 0.0f, 0.0f);
           glColor3f(1.0f, 0.0f, 0.0f);
           drawLeftHalfArch();
-          glColor3f(1.0f, 1.0f, 0.0f);
           drawRightHalfArch();
           //now the flipped arch is added
 
@@ -102,26 +101,26 @@ void display( void )
           //copy code from case 1
           glLoadIdentity();
           glPushMatrix();
-          glTranslatef(0.0f, 0.0f, 0.0f);
           glColor3f(1.0f, 0.0f, 0.0f);
-          drawLeftHalfArch();
+          //drawLeftHalfArch();
           glColor3f(1.0f, 1.0f, 0.0f);
-          drawRightHalfArch();
+          //drawRightHalfArch();
           //now the flipped arch is added
-          
-          //when i pop this matrix, i remove the 2 things i did after i made the most recent push
-          //so, it will no longer scale and translate, and thus be back on the original place
-          //changed the color to white, so you can see that its back over the original spot
-          glPopMatrix();
           
           //HELEN'S ADDITION: Here I'm trying to see what we can do with translating and scaling. I can't figure out how to get the second arch to appear behind the first one, however.
           glColor3f(0.0f, 1.0f, 1.0f);
           
-          glTranslatef(0.15f,0.05f,0.5f);
+          glTranslatef(0.15f,0.05f,-0.5f);
           glScalef(0.85f, 0.85f, 0.f);
           drawLeftHalfArch();
           drawRightHalfArch();
-          glEnd();
+          glPopMatrix();
+          
+          glColor3f(1.0f, 0.0f, 0.0f);
+          drawLeftHalfArch();
+          drawRightHalfArch();
+        
+          addSun();
           break;
 
       case 3:// Draw a triangle
