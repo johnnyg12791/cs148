@@ -1,5 +1,7 @@
 #Added by john
 *.DS_Store
+*.plist
+*.xcuserstate
 
 # Compiled Object files
 #removed the .obj
