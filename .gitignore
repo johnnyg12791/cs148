@@ -1,8 +1,11 @@
+#Added by john
+.DS_Store
+
 # Compiled Object files
+#removed the .obj
 *.slo
 *.lo
 *.o
-*.obj
 
 # Precompiled Headers
 *.gch
