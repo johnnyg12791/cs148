@@ -1,5 +1,5 @@
 #Added by john
-.DS_Store
+*.DS_Store
 
 # Compiled Object files
 #removed the .obj
