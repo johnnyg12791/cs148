@@ -28,23 +28,23 @@ std::string meshOBJ3;
 
 
 // Light source attributes
-static float specularLight[] = {1.00, 1.00, 1.00, 1.0};
 static float ambientLight[]  = {0.10, 0.10, 0.10, 1.0};
-static float diffuseLight[]  = {1.00, 1.00, 1.00, 1.0};
+static float specularLight[] = {1.0, 1.0, 1.0, 1.0};
+static float diffuseLight[]  = {1.0, 1.0, 1.0, 1.0};
 
-static float specularLight1[] = {0.80, 0.50, 1.00, 1.0};
-static float ambientLight1[]  = {0.10, 0.40, 0.10, 1.0};
-static float diffuseLight1[]  = {1.00, 0.80, 1.00, 1.0};
+static float ambientLight1[]  = {0, 0, 0, 1.0};
+static float specularLight1[] = {0.5, 0.5, 0.5, 1.0};
+static float diffuseLight1[]  = {0.5, 0.5, 0.5, 1.0};
 
 
 float lightPosition[] = {10.0f, 15.0f, 10.0f, 1.0f};
-float lightPosition1[] = {95.0f, -45.0f, 5.0f, 1.0f};
+float lightPosition1[] = {0.0f, -5.0f, -10.0f, 1.0f};
 
 // Material color properties
 static float materialAmbient[]  = { 0.2, 0.2, 0.6, 1.0 };
 static float materialDiffuse[]  = { 0.2, 0.2, 0.6, 1.0 };
 static float materialSpecular[] = { 0.8, 0.8, 0.8, 1.0 };
-static float shininess          = 8.0;  // # between 1 and 128.
+static float shininess          = 128.0;  // # between 1 and 128.
 STShaderProgram *shader;
 
 // Stored mouse position for camera rotation, panning, and zoom.
@@ -366,7 +366,7 @@ int main(int argc, char** argv)
 	fragmentShader = std::string(argv[2]);
     meshOBJ        = std::string(argv[3]);
     //We can set meshOBJ = direct file paths to have multiple
-    meshOBJ2 = "../meshes_from_internet/cow.obj";
+    meshOBJ2 = "./meshes/helenbottle.obj";
     meshOBJ3 = "../glassBottle_smooth.obj";
     //
     // Initialize GLUT.

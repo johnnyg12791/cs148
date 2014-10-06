@@ -12,6 +12,7 @@
 // by a fragment shader that makes the same declaration.
 varying vec3 modelPos;
 varying vec3 lightSourcePos;
+varying vec3 lightSourcePos1;
 varying vec3 normal;
 
 void main()
@@ -27,4 +28,5 @@ void main()
 
     // pass the light source position to the fragment shader
     lightSourcePos = gl_LightSource[0].position.xyz;
+    lightSourcePos1 = gl_LightSource[1].position.xyz;
 }
