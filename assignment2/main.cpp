@@ -58,8 +58,8 @@ bool mesh = false; // draw mesh
 bool smooth = false; // smooth/flat shading for mesh
 
 STTriangleMesh* gTriangleMesh = 0;
-STTriangleMesh* gTriangleMesh2 = 0;
-STTriangleMesh* gTriangleMesh3 = 0;
+STTriangleMesh* helenBottleMesh = 0;
+STTriangleMesh* cowMesh = 0;
 
 STTriangleMesh* gManualTriangleMesh = 0;
 
@@ -142,8 +142,8 @@ void Setup()
     glEnable(GL_DEPTH_TEST);
 
     gTriangleMesh=new STTriangleMesh(meshOBJ);
-    gTriangleMesh2=new STTriangleMesh(meshOBJ2);
-    gTriangleMesh3=new STTriangleMesh(meshOBJ3);
+    helenBottleMesh=new STTriangleMesh(meshOBJ2);
+    cowMesh=new STTriangleMesh(meshOBJ3);
     
     CreateYourOwnMesh();
 }
@@ -154,10 +154,10 @@ void CleanUp()
         delete gTriangleMesh;
     if(gManualTriangleMesh!=0)
         delete gManualTriangleMesh;
-    if(gTriangleMesh2!=0)
-        delete gTriangleMesh2;
-    if(gTriangleMesh3!=0)
-        delete gTriangleMesh3;
+    if(helenBottleMesh!=0)
+        delete helenBottleMesh;
+    if(cowMesh!=0)
+        delete cowMesh;
 }
 
 /**
@@ -176,6 +176,38 @@ void AdjustCameraElevationBy(float delta)
 void AdjustCameraTranslationBy(STVector3 delta)
 {
     mCameraTranslation += delta;
+}
+
+//We already have the first pin set
+//Want to push and pop matrix translations for "bowling pins"
+void DrawNineMorePins(){
+    glPushMatrix();
+    glTranslatef(1.5f, 0.0f, 1.5f);
+    helenBottleMesh->Draw(smooth);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(1.5f, 0.0f, -1.5f);
+    helenBottleMesh->Draw(smooth);
+    glPopMatrix();
+    
+    //Now for the 3rd row
+    
+    glPushMatrix();
+    glTranslatef(3.0f, 0.0f, 3.0f);
+    helenBottleMesh->Draw(smooth);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(3.0f, 0.0f, 0.0f);
+    helenBottleMesh->Draw(smooth);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(3.0f, 0.0f, -3.0f);
+    helenBottleMesh->Draw(smooth);
+    glPopMatrix();
+    
 }
 
 //
@@ -202,18 +234,22 @@ void DisplayCallback()
     // shader programs on anything we draw.
     shader->Bind();
     glPushMatrix();
+    //gTriangleMesh->Draw(smooth);
     
-    glTranslatef(-2.0f, -0.0f, 0.0f);
+    glTranslatef(-2.0f, 0.0f, 0.0f);
     glScalef(0.5f, 0.5f, 0.5f);
-    gTriangleMesh2->Draw(smooth);
+    cowMesh->Draw(smooth);
     glPopMatrix();
     
     glPushMatrix();
     glTranslatef(2.0f, 0.0f, 0.0f);
-    glScalef(0.5f, 0.3f, 1.0f);
-    gTriangleMesh3->Draw(smooth);
-    glPopMatrix();
+    glScalef(0.5f, 0.6f, 1.0f);
+    helenBottleMesh->Draw(smooth);//Pin 1
     
+    DrawNineMorePins();
+    
+    
+    glPopMatrix();
     shader->UnBind();
     glutSwapBuffers();
 }
@@ -283,8 +319,8 @@ void KeyCallback(unsigned char key, int x, int y)
         smooth = !smooth;
         break;
     case 'l': // do loop subdivision
-        gTriangleMesh2->LoopSubdivide();
-        gTriangleMesh3->LoopSubdivide();
+        //gTriangleMesh2->LoopSubdivide();
+        cowMesh->LoopSubdivide();
         break;
 	case 'q':
 		exit(0);
@@ -367,7 +403,7 @@ int main(int argc, char** argv)
     meshOBJ        = std::string(argv[3]);
     //We can set meshOBJ = direct file paths to have multiple
     meshOBJ2 = "./meshes/helenbottle.obj";
-    meshOBJ3 = "../glassBottle_smooth.obj";
+    meshOBJ3 = "./meshes_from_internet/cow.obj";
     //
     // Initialize GLUT.
     //
