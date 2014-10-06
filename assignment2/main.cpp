@@ -208,6 +208,8 @@ void DrawNineMorePins(){
     helenBottleMesh->Draw(smooth);
     glPopMatrix();
     
+    //Leaving out the 4th row for now
+    
 }
 
 //
