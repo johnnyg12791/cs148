@@ -23,20 +23,28 @@ static int gWindowSizeY = 0;
 std::string vertexShader;
 std::string fragmentShader;
 std::string meshOBJ;
+std::string meshOBJ2;
+std::string meshOBJ3;
+
 
 // Light source attributes
 static float specularLight[] = {1.00, 1.00, 1.00, 1.0};
 static float ambientLight[]  = {0.10, 0.10, 0.10, 1.0};
 static float diffuseLight[]  = {1.00, 1.00, 1.00, 1.0};
 
+static float specularLight1[] = {0.80, 0.50, 1.00, 1.0};
+static float ambientLight1[]  = {0.10, 0.40, 0.10, 1.0};
+static float diffuseLight1[]  = {1.00, 0.80, 1.00, 1.0};
+
+
 float lightPosition[] = {10.0f, 15.0f, 10.0f, 1.0f};
+float lightPosition1[] = {95.0f, -45.0f, 5.0f, 1.0f};
 
 // Material color properties
 static float materialAmbient[]  = { 0.2, 0.2, 0.6, 1.0 };
 static float materialDiffuse[]  = { 0.2, 0.2, 0.6, 1.0 };
 static float materialSpecular[] = { 0.8, 0.8, 0.8, 1.0 };
 static float shininess          = 8.0;  // # between 1 and 128.
-
 STShaderProgram *shader;
 
 // Stored mouse position for camera rotation, panning, and zoom.
@@ -50,6 +58,9 @@ bool mesh = false; // draw mesh
 bool smooth = false; // smooth/flat shading for mesh
 
 STTriangleMesh* gTriangleMesh = 0;
+STTriangleMesh* gTriangleMesh2 = 0;
+STTriangleMesh* gTriangleMesh3 = 0;
+
 STTriangleMesh* gManualTriangleMesh = 0;
 
 void resetCamera()
@@ -59,6 +70,7 @@ void resetCamera()
     mCameraElevation = 65.0f;
 }
 
+//THis is the square thing (kite structure)
 void CreateYourOwnMesh()
 {
     float leftX   = -2.0f;
@@ -106,6 +118,13 @@ void Setup()
     glLightfv(GL_LIGHT0, GL_AMBIENT,   ambientLight);
     glLightfv(GL_LIGHT0, GL_DIFFUSE,   diffuseLight);
 
+    
+    //add another light...??
+    glEnable(GL_LIGHT1);
+    glLightfv(GL_LIGHT1, GL_SPECULAR,  specularLight1);
+    glLightfv(GL_LIGHT1, GL_AMBIENT,   ambientLight1);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE,   diffuseLight1);
+    
     // Ditto with accessing material properties in the fragment
     // and vertex shaders.
     glMaterialfv(GL_FRONT, GL_AMBIENT,   materialAmbient);
@@ -123,7 +142,9 @@ void Setup()
     glEnable(GL_DEPTH_TEST);
 
     gTriangleMesh=new STTriangleMesh(meshOBJ);
-
+    gTriangleMesh2=new STTriangleMesh(meshOBJ2);
+    gTriangleMesh3=new STTriangleMesh(meshOBJ3);
+    
     CreateYourOwnMesh();
 }
 
@@ -133,6 +154,10 @@ void CleanUp()
         delete gTriangleMesh;
     if(gManualTriangleMesh!=0)
         delete gManualTriangleMesh;
+    if(gTriangleMesh2!=0)
+        delete gTriangleMesh2;
+    if(gTriangleMesh3!=0)
+        delete gTriangleMesh3;
 }
 
 /**
@@ -171,16 +196,24 @@ void DisplayCallback()
     glRotatef(90.0f, 1, 0, 0);
 
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-
+    glLightfv(GL_LIGHT1, GL_POSITION, lightPosition1);
+    
     // Invoke the shader.  Now OpenGL will call our
     // shader programs on anything we draw.
     shader->Bind();
-
-    if(mesh)
-        gTriangleMesh->Draw(smooth);
-    else
-        gManualTriangleMesh->Draw(smooth);
-
+    glPushMatrix();
+    
+    glTranslatef(-2.0f, -0.0f, 0.0f);
+    glScalef(0.5f, 0.5f, 0.5f);
+    gTriangleMesh2->Draw(smooth);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(2.0f, 0.0f, 0.0f);
+    glScalef(0.5f, 0.3f, 1.0f);
+    gTriangleMesh3->Draw(smooth);
+    glPopMatrix();
+    
     shader->UnBind();
     glutSwapBuffers();
 }
@@ -250,10 +283,8 @@ void KeyCallback(unsigned char key, int x, int y)
         smooth = !smooth;
         break;
     case 'l': // do loop subdivision
-        if(mesh)
-            gTriangleMesh->LoopSubdivide();
-        else
-            gManualTriangleMesh->LoopSubdivide();
+        gTriangleMesh2->LoopSubdivide();
+        gTriangleMesh3->LoopSubdivide();
         break;
 	case 'q':
 		exit(0);
@@ -334,7 +365,9 @@ int main(int argc, char** argv)
 	vertexShader   = std::string(argv[1]);
 	fragmentShader = std::string(argv[2]);
     meshOBJ        = std::string(argv[3]);
-
+    //We can set meshOBJ = direct file paths to have multiple
+    meshOBJ2 = "../meshes_from_internet/cow.obj";
+    meshOBJ3 = "../glassBottle_smooth.obj";
     //
     // Initialize GLUT.
     //
