@@ -25,19 +25,26 @@ std::string fragmentShader;
 std::string normalMap;
 std::string displacementMap;
 std::string meshOBJ;
+std::string meshOBJ2;
 
 // Light source attributes
-static float ambientLight[]  = {0.20, 0.20, 0.20, 1.0};
-static float diffuseLight[]  = {1.00, 1.00, 1.00, 1.0};
-static float specularLight[] = {1.00, 1.00, 1.00, 1.0};
+static float ambientLight[]  = {1.5, 1.5, 1.5, 1.0};
+static float specularLight[] = {1.0, 1.0, 1.0, 1.0};
+static float diffuseLight[]  = {1.5, 1.5, 1.5, 1.0};
 
-float lightPosition[] = {10.0f, 15.0f, 10.0f, 1.0f};
+static float ambientLight1[]  = {1.0, 1.0, 1.0, 1.0};
+static float specularLight1[] = {1.0, 1.0, 1.0, 1.0};
+static float diffuseLight1[]  = {1.5, 1.5, 1.5, 1.0};
+
+
+float lightPosition[] = {5.0f, 5.0f, 10.0f, 1.0f};
+float lightPosition1[] = {-10.0f, 5.0f, -10.0f, 1.0f};
 
 // Material color properties
-static float materialAmbient[]  = { 0.2, 0.2, 0.6, 1.0 };
-static float materialDiffuse[]  = { 0.2, 0.2, 0.6, 1.0 };
+static float materialAmbient[]  = { 0.5, 0.5, 0.5, 1.0 };
+static float materialDiffuse[]  = { 0.5, 0.5, 0.8, 1.0 };
 static float materialSpecular[] = { 0.8, 0.8, 0.8, 1.0 };
-static float shininess          = 8.0;  // # between 1 and 128.
+static float shininess          = 2.0;  // # between 1 and 128.
 
 static float material2Ambient[]  = { 1., 1., 1., 1. };
 static float material2Diffuse[]  = { 1., 1., 1., 1. };
@@ -71,6 +78,8 @@ STPoint3 gMassCenter;
 std::pair<STPoint3,STPoint3> gBoundingBox;
 
 STTriangleMesh* gManualTriangleMesh = 0;
+STTriangleMesh* bottleMesh1 = 0;
+STTriangleMesh* bottleMesh2 = 0;
 
 int TesselationDepth = 100;
 
@@ -154,6 +163,16 @@ void Setup()
     glLightfv(GL_LIGHT0, GL_SPECULAR,  specularLight);
     glLightfv(GL_LIGHT0, GL_AMBIENT,   ambientLight);
     glLightfv(GL_LIGHT0, GL_DIFFUSE,   diffuseLight);
+    
+    glEnable(GL_LIGHT1);
+    glLightfv(GL_LIGHT1, GL_SPECULAR,  specularLight1);
+    glLightfv(GL_LIGHT1, GL_AMBIENT,   ambientLight1);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE,   diffuseLight1);
+    
+    glMaterialfv(GL_FRONT, GL_AMBIENT,   materialAmbient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE,   materialDiffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR,  materialSpecular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, &shininess);
 
     surfaceNormImg = new STImage(normalMap);
     surfaceNormTex = new STTexture(surfaceNormImg);
@@ -252,6 +271,7 @@ void DisplayCallback()
               mUp.x,mUp.y,mUp.z);
 
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+    glLightfv(GL_LIGHT1, GL_POSITION, lightPosition1);
 
     // Texture 0: surface normal map
     glActiveTexture(GL_TEXTURE0);
@@ -272,8 +292,8 @@ void DisplayCallback()
     // shader programs on anything we draw.
     shader->Bind();
 
-    if(mesh)
-    {
+   // if(mesh)
+   // {
         shader->SetUniform("normalMapping", -1.0);
         shader->SetUniform("displacementMapping", -1.0);
 		shader->SetUniform("colorMapping", 1.0);
@@ -287,8 +307,9 @@ void DisplayCallback()
         for(unsigned int id=0;id<gTriangleMeshes.size();id++) {
 			gTriangleMeshes[id]->Draw(smooth);
 		}
+        //bottleMesh1->Draw(smooth);
         glPopMatrix();
-    }
+  /*  }
     else
     {
         // Ditto with accessing material properties in the fragment
@@ -310,7 +331,7 @@ void DisplayCallback()
             shader->SetUniform("TesselationDepth", TesselationDepth);
         }
         gManualTriangleMesh->Draw(smooth);
-    }
+    }*/
 
     shader->UnBind();
     
@@ -494,7 +515,8 @@ int main(int argc, char** argv)
 
     vertexShader   = argc>1?std::string(argv[1]):std::string("kernels/default.vert");
 	fragmentShader = argc>2?std::string(argv[2]):std::string("kernels/phong.frag");
-    meshOBJ        = argc>3?std::string(argv[3]):std::string("turbosonic/turbosonic.obj");
+    //meshOBJ        = argc>3?std::string(argv[3]):std::string("turbosonic/turbosonic.obj");
+    meshOBJ        = argc>3?std::string(argv[3]):std::string("meshes/composite.obj");
 	normalMap      = argc>4?std::string(argv[4]):std::string("images/normalmap.png");
 	displacementMap= argc>5?std::string(argv[5]):std::string("images/displacementmap.jpeg");
 
