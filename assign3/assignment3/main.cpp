@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include <string.h>
-
 //
 // Globals used by this application.
 // As a rule, globals are Evil, but this is a small application
@@ -24,8 +23,9 @@ std::string vertexShader;
 std::string fragmentShader;
 std::string normalMap;
 std::string displacementMap;
-std::string meshOBJ;
-std::string meshOBJ2;
+std::string meshBalloon;
+std::string meshBalloon2;
+std::string meshMountain;
 
 // Light source attributes
 static float ambientLight[]  = {1.5, 1.5, 1.5, 1.0};
@@ -77,9 +77,9 @@ std::vector<STTriangleMesh*> gTriangleMeshes;
 STPoint3 gMassCenter;
 std::pair<STPoint3,STPoint3> gBoundingBox;
 
-STTriangleMesh* gManualTriangleMesh = 0;
-STTriangleMesh* bottleMesh1 = 0;
-STTriangleMesh* bottleMesh2 = 0;
+STTriangleMesh* bottleMesh = 0;
+STTriangleMesh* balloonMesh = 0;
+STTriangleMesh* mountainMesh = 0;
 
 int TesselationDepth = 100;
 
@@ -109,46 +109,6 @@ void resetUp()
     mUp.Normalize();
 }
 
-void CreateYourOwnMesh()
-{
-    float leftX   = -2.0f;
-    float rightX  = -leftX;
-    float nearZ   = -2.0f;
-    float farZ    = -nearZ;
-    
-    gManualTriangleMesh= new STTriangleMesh();
-    for (int i = 0; i < TesselationDepth+1; i++){
-        for (int j = 0; j < TesselationDepth+1; j++) {
-            float s0 = (float) i / (float) TesselationDepth;
-            float x0 =  s0 * (rightX - leftX) + leftX;
-            float t0 = (float) j / (float) TesselationDepth;
-            float z0 = t0 * (farZ - nearZ) + nearZ;
-
-            gManualTriangleMesh->AddVertex(x0,(x0*x0+z0*z0)*0.0f,z0,s0,t0);
-        }
-    }
-    for (int i = 0; i < TesselationDepth; i++){
-        for (int j = 0; j < TesselationDepth; j++) {
-            unsigned int id0=i*(TesselationDepth+1)+j;
-            unsigned int id1=(i+1)*(TesselationDepth+1)+j;
-            unsigned int id2=(i+1)*(TesselationDepth+1)+j+1;
-            unsigned int id3=i*(TesselationDepth+1)+j+1;
-            gManualTriangleMesh->AddFace(id0,id2,id1);
-            gManualTriangleMesh->AddFace(id0,id3,id2);
-        }
-    }
-    gManualTriangleMesh->Build();
-    gManualTriangleMesh->mMaterialAmbient[0]=0.2f;
-    gManualTriangleMesh->mMaterialAmbient[1]=0.2f;
-    gManualTriangleMesh->mMaterialAmbient[2]=0.6f;
-    gManualTriangleMesh->mMaterialDiffuse[0]=0.2f;
-    gManualTriangleMesh->mMaterialDiffuse[1]=0.2f;
-    gManualTriangleMesh->mMaterialDiffuse[2]=0.6f;
-    gManualTriangleMesh->mMaterialSpecular[0]=0.6f;
-    gManualTriangleMesh->mMaterialSpecular[1]=0.6f;
-    gManualTriangleMesh->mMaterialSpecular[2]=0.6f;
-    gManualTriangleMesh->mShininess=8.0f;
-}
 //
 // Initialize the application, loading all of the settings that
 // we will be accessing later in our fragment shaders.
@@ -188,30 +148,35 @@ void Setup()
     
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glEnable(GL_DEPTH_TEST);
-
     
-    STTriangleMesh::LoadObj(gTriangleMeshes,meshOBJ);
+
+
+    //No more meshBottle
+    STTriangleMesh::LoadObj(gTriangleMeshes,meshBalloon);
+    STTriangleMesh::LoadObj(gTriangleMeshes,meshBalloon2);
+    //STTriangleMesh::LoadObj(gTriangleMeshes,meshMountain);
+    //STTriangleMesh::AddVertex(0.0f, 0.0f, -500.0f);
     gMassCenter=STTriangleMesh::GetMassCenter(gTriangleMeshes);
     std::cout<<"Mass Center: "<<gMassCenter<<std::endl;
     gBoundingBox=STTriangleMesh::GetBoundingBox(gTriangleMeshes);
     std::cout<<"Bounding Box: "<<gBoundingBox.first<<" - "<<gBoundingBox.second<<std::endl;
 
-    //for(unsigned int id=0;id<gTriangleMeshes.size();id++)
-    //    gTriangleMeshes[id]->Recenter(gMassCenter);
+    for(unsigned int id=0;id<gTriangleMeshes.size();id++)
+        gTriangleMeshes[id]->Recenter(gMassCenter);
     
-    //for(unsigned int id=0;id<gTriangleMeshes.size();id++){
-    //    if(proxyType) gTriangleMeshes[id]->CalculateTextureCoordinatesViaSphericalProxy();
-    //    else gTriangleMeshes[id]->CalculateTextureCoordinatesViaCylindricalProxy(-6700,6700,0,0,2);
-    //}
-
-    CreateYourOwnMesh();
+    for(unsigned int id=0;id<gTriangleMeshes.size();id++){
+        gTriangleMeshes[id]->mDrawAxis = false;
+        if(proxyType) gTriangleMeshes[id]->CalculateTextureCoordinatesViaSphericalProxy();
+        else gTriangleMeshes[id]->CalculateTextureCoordinatesViaCylindricalProxy(-6700,6700,0,0,2);
+    }
+    
+    //bottleMesh=new STTriangleMesh(meshBottle);
+    //balloonMesh=new STTriangleMesh(meshBalloon);
 }
 
 void CleanUp()
 {
     for(unsigned int id=0;id<gTriangleMeshes.size();id++)delete gTriangleMeshes[id];
-    if(gManualTriangleMesh!=0)
-        delete gManualTriangleMesh;
 }
 
 /**
@@ -244,6 +209,7 @@ void ZoomCamera(float delta_y)
     }
 }
 
+
 void StrafeCamera(float delta_x, float delta_y)
 {
     float strafe_rate = 0.05f;
@@ -263,7 +229,7 @@ void DisplayCallback()
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
+    //addBackground();
     SetUpAndRight();
 
     gluLookAt(mPosition.x,mPosition.y,mPosition.z,
@@ -292,46 +258,50 @@ void DisplayCallback()
     // shader programs on anything we draw.
     shader->Bind();
 
-   // if(mesh)
-   // {
         shader->SetUniform("normalMapping", -1.0);
         shader->SetUniform("displacementMapping", -1.0);
 		shader->SetUniform("colorMapping", 1.0);
         
-        glPushMatrix();
-        // Pay attention to scale 
-        STVector3 size_vector=gBoundingBox.second-gBoundingBox.first;
-        float maxSize=(std::max)((std::max)(size_vector.x,size_vector.y),size_vector.z);
-		glScalef(3.0f/maxSize,3.0f/maxSize,3.0f/maxSize);
-		glTranslatef(-gMassCenter.x,-gMassCenter.y,-gMassCenter.z);
-        for(unsigned int id=0;id<gTriangleMeshes.size();id++) {
-			gTriangleMeshes[id]->Draw(smooth);
-		}
-        //bottleMesh1->Draw(smooth);
-        glPopMatrix();
-  /*  }
-    else
-    {
-        // Ditto with accessing material properties in the fragment
-        // and vertex shaders.
-        glMaterialfv(GL_FRONT, GL_AMBIENT,   materialAmbient);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE,   materialDiffuse);
-        glMaterialfv(GL_FRONT, GL_SPECULAR,  materialSpecular);
-        glMaterialfv(GL_FRONT, GL_SHININESS, &shininess);
-        
-        if(normalMapping){
-            shader->SetUniform("displacementMapping", -1.0);
-            shader->SetUniform("normalMapping", 1.0);
-			shader->SetUniform("colorMapping", -1.0);
-        }
-        else{
-            shader->SetUniform("displacementMapping", 1.0);
-            shader->SetUniform("normalMapping", -1.0);
-			shader->SetUniform("colorMapping", -1.0);
-            shader->SetUniform("TesselationDepth", TesselationDepth);
-        }
-        gManualTriangleMesh->Draw(smooth);
-    }*/
+    glPushMatrix();
+    // Pay attention to scale 
+    STVector3 size_vector=gBoundingBox.second-gBoundingBox.first;
+    float maxSize=(std::max)((std::max)(size_vector.x,size_vector.y),size_vector.z);
+    glScalef(3.0f/maxSize,3.0f/maxSize,3.0f/maxSize);
+    glTranslatef(-gMassCenter.x,-gMassCenter.y,-gMassCenter.z);
+    //for(unsigned int id=0;id<gTriangleMeshes.size();id++) {
+    //    gTriangleMeshes[id]->Draw(smooth);
+    //}
+    glTranslatef(0.0f, 15.0f, -1.0f);
+    glPushMatrix(); //This is our "center"
+    gTriangleMeshes[0]->Draw(smooth);
+    gTriangleMeshes[3]->Draw(smooth);
+    
+    glTranslatef(-12.0f, -2.0f, 10.0f);
+    gTriangleMeshes[0]->Draw(smooth);
+    gTriangleMeshes[1]->Draw(smooth);
+    glTranslatef(12.0f, 2.0f, -10.0f);
+    
+    glTranslatef(8.0f, 0.0f, -4.0f);
+    gTriangleMeshes[0]->Draw(smooth);
+    gTriangleMeshes[1]->Draw(smooth);
+    glTranslatef(-8.0f, 0.0f, 4.0f);
+    
+    glTranslatef(0.0f, 2.0f, -100.0f);
+    gTriangleMeshes[0]->Draw(smooth);
+    gTriangleMeshes[1]->Draw(smooth);
+    glTranslatef(0.0f, -2.0f, 100.0f);
+    
+    glTranslatef(20.0f, 10.0f, -50.f);
+    gTriangleMeshes[2]->Draw(smooth);
+    gTriangleMeshes[3]->Draw(smooth);
+    glTranslatef(-20.0f, -10.0f, 50.0f);
+
+    /*gTriangleMeshes[0]->mDrawAxis = false;
+    glTranslatef(-2.0f, 0.0f, 0.0f);
+    gTriangleMeshes[0]->Draw(smooth);
+    gTriangleMeshes[0]->mDrawAxis = false;*/
+
+
 
     shader->UnBind();
     
@@ -343,6 +313,9 @@ void DisplayCallback()
     
     glutSwapBuffers();
 }
+
+
+
 
 //
 // Reshape the window and record the size so
@@ -405,14 +378,6 @@ void KeyCallback(unsigned char key, int x, int y)
     case 'u':
         resetUp();
         break;
-    case 'm': // switch between the mesh you create and the mesh from file
-        mesh = !mesh;
-        break;
-	//case 'p': //switch proxy type between sphere and cylinder
-	//	proxyType=!proxyType;
-	//	if(proxyType) gTriangleMesh->CalculateTextureCoordinatesViaSphericalProxy();
-	//	else gTriangleMesh->CalculateTextureCoordinatesViaCylindricalProxy(-1,1,0,0,1);
-	//	break;
     case 'n': // switch between normalMapping and displacementMapping
         normalMapping = !normalMapping;
         break;
@@ -434,8 +399,6 @@ void KeyCallback(unsigned char key, int x, int y)
     case 'a':
         for(unsigned int id=0;id<gTriangleMeshes.size();id++)
             gTriangleMeshes[id]->mDrawAxis=!gTriangleMeshes[id]->mDrawAxis;
-        if(gManualTriangleMesh!=0)
-            gManualTriangleMesh->mDrawAxis=!gManualTriangleMesh->mDrawAxis;
         break;
 	case 'q':
 		exit(0);
@@ -516,10 +479,14 @@ int main(int argc, char** argv)
     vertexShader   = argc>1?std::string(argv[1]):std::string("kernels/default.vert");
 	fragmentShader = argc>2?std::string(argv[2]):std::string("kernels/phong.frag");
     //meshOBJ        = argc>3?std::string(argv[3]):std::string("turbosonic/turbosonic.obj");
-    meshOBJ        = argc>3?std::string(argv[3]):std::string("meshes/composite.obj");
+    meshBalloon        = argc>3?std::string(argv[3]):std::string("meshes/balloonbottle1.obj");
 	normalMap      = argc>4?std::string(argv[4]):std::string("images/normalmap.png");
 	displacementMap= argc>5?std::string(argv[5]):std::string("images/displacementmap.jpeg");
-
+    
+    //meshBottle = "./meshes/balloonbottle1.obj";
+    meshBalloon2 = "./meshes/balloonbottle2.obj";
+    meshMountain = "./meshes/mountains.obj";
+    
     //
     // Initialize GLUT.
     //
