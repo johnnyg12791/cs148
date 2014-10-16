@@ -1,5 +1,25 @@
-# Blender MTL File: 'balloonbottle1.blend'
-# Material Count: 2
+# Blender MTL File: 'newcomposite.blend'
+# Material Count: 3
+
+newmtl Material
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd jacobik-a-lav.jpg
+
+newmtl Material.001
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Fiberglass0003_L.jpg
 
 newmtl Material.005
 Ns 96.078431
@@ -9,14 +29,4 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd maxresdefault.jpg
-
-newmtl Material.006
-Ns 96.078431
-Ka 0.000000 0.000000 0.000000
-Kd 0.640000 0.640000 0.640000
-Ks 0.500000 0.500000 0.500000
-Ni 1.000000
-d 1.000000
-illum 2
-map_Kd Fiberglass0003_L.jpg
+map_Kd fzm-Canvas-Textures/fzm-Canvas.Texture-01.jpg
