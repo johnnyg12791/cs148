@@ -26,6 +26,7 @@ std::string displacementMap;
 std::string meshBalloon;
 std::string meshBalloon2;
 std::string meshMountain;
+std::string meshBackground;
 
 // Light source attributes
 static float ambientLight[]  = {1.5, 1.5, 1.5, 1.0};
@@ -77,9 +78,6 @@ std::vector<STTriangleMesh*> gTriangleMeshes;
 STPoint3 gMassCenter;
 std::pair<STPoint3,STPoint3> gBoundingBox;
 
-STTriangleMesh* bottleMesh = 0;
-STTriangleMesh* balloonMesh = 0;
-STTriangleMesh* mountainMesh = 0;
 
 int TesselationDepth = 100;
 
@@ -154,7 +152,7 @@ void Setup()
     //No more meshBottle
     STTriangleMesh::LoadObj(gTriangleMeshes,meshBalloon);
     STTriangleMesh::LoadObj(gTriangleMeshes,meshBalloon2);
-    //STTriangleMesh::LoadObj(gTriangleMeshes,meshMountain);
+    STTriangleMesh::LoadObj(gTriangleMeshes,meshBackground);
     //STTriangleMesh::AddVertex(0.0f, 0.0f, -500.0f);
     gMassCenter=STTriangleMesh::GetMassCenter(gTriangleMeshes);
     std::cout<<"Mass Center: "<<gMassCenter<<std::endl;
@@ -274,35 +272,47 @@ void DisplayCallback()
     glTranslatef(0.0f, 15.0f, -1.0f);
     glPushMatrix(); //This is our "center"
     gTriangleMeshes[0]->Draw(smooth);
-    gTriangleMeshes[3]->Draw(smooth);
-    
-    glTranslatef(-12.0f, -2.0f, 10.0f);
+    gTriangleMeshes[1]->Draw(smooth);
+    gTriangleMeshes[2]->Draw(smooth);
+
+    glTranslatef(-12.0f, -2.0f, 18.0f);
     gTriangleMeshes[0]->Draw(smooth);
     gTriangleMeshes[1]->Draw(smooth);
-    glTranslatef(12.0f, 2.0f, -10.0f);
+    gTriangleMeshes[2]->Draw(smooth);
+
+    glTranslatef(12.0f, 2.0f, -18.0f);
     
-    glTranslatef(8.0f, 0.0f, -4.0f);
+    glTranslatef(18.0f, 0.0f, -14.0f);
     gTriangleMeshes[0]->Draw(smooth);
     gTriangleMeshes[1]->Draw(smooth);
-    glTranslatef(-8.0f, 0.0f, 4.0f);
+    gTriangleMeshes[2]->Draw(smooth);
+
+    glTranslatef(-18.0f, 0.0f, 14.0f);
     
     glTranslatef(0.0f, 2.0f, -100.0f);
     gTriangleMeshes[0]->Draw(smooth);
     gTriangleMeshes[1]->Draw(smooth);
+    gTriangleMeshes[2]->Draw(smooth);
+
     glTranslatef(0.0f, -2.0f, 100.0f);
     
     glTranslatef(20.0f, 10.0f, -50.f);
+    gTriangleMeshes[0]->Draw(smooth);
+    gTriangleMeshes[1]->Draw(smooth);
     gTriangleMeshes[2]->Draw(smooth);
-    gTriangleMeshes[3]->Draw(smooth);
+
     glTranslatef(-20.0f, -10.0f, 50.0f);
 
     /*gTriangleMeshes[0]->mDrawAxis = false;
     glTranslatef(-2.0f, 0.0f, 0.0f);
     gTriangleMeshes[0]->Draw(smooth);
     gTriangleMeshes[0]->mDrawAxis = false;*/
-
-
-
+    
+    
+    gTriangleMeshes[5]->Draw(smooth);
+    
+    
+    
     shader->UnBind();
     
     glActiveTexture(GL_TEXTURE0);
@@ -486,6 +496,7 @@ int main(int argc, char** argv)
     //meshBottle = "./meshes/balloonbottle1.obj";
     meshBalloon2 = "./meshes/balloonbottle2.obj";
     meshMountain = "./meshes/mountains.obj";
+    meshBackground = "./meshes/sky.obj";
     
     //
     // Initialize GLUT.

@@ -397,12 +397,11 @@ void usage()
 
 int main(int argc, char** argv)
 {
-	if (argc != 4)
-		usage();
+	//if (argc != 4)
+	//	usage();
 
-	vertexShader   = std::string(argv[1]);
-	fragmentShader = std::string(argv[2]);
-    meshOBJ        = std::string(argv[3]);
+	vertexShader   = "kernels/default.vert";
+	fragmentShader = "kernels/phong.frag";
     //We can set meshOBJ = direct file paths to have multiple
     meshOBJ2 = "./meshes/helenbottle.obj";
     meshOBJ3 = "./meshes_from_internet/cow.obj";
