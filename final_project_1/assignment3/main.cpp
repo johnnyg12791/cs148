@@ -27,6 +27,7 @@ std::string normalMap;
 std::string displacementMap;
 std::string meshOBJ;
 std::string backgroundOBJ;
+std::string mountainOBJ;
 
 // Light source attributes
 static float ambientLight[]  = {0.20, 0.20, 0.20, 1.0};
@@ -63,7 +64,7 @@ STVector3 mUp;
 int gPreviousMouseX = -1;
 int gPreviousMouseY = -1;
 int gMouseButton = -1;
-bool mesh = false; // draw mesh
+bool mesh = true; // draw mesh
 bool smooth = true; // smooth/flat shading for mesh
 bool normalMapping = true; // true=normalMapping, false=displacementMapping
 bool proxyType=false; // false: use cylinder; true: use sphere
@@ -141,6 +142,7 @@ void CreateYourOwnMesh()
     gManualTriangleMesh->mMaterialSpecular[1]=0.6f;
     gManualTriangleMesh->mMaterialSpecular[2]=0.6f;
     gManualTriangleMesh->mShininess=8.0f;
+    gManualTriangleMesh->mDrawAxis=false;
 }
 //
 // Initialize the application, loading all of the settings that
@@ -186,6 +188,8 @@ void Setup()
     
     STTriangleMesh::LoadObj(gTriangleMeshes, meshOBJ);
     STTriangleMesh::LoadObj(gTriangleMeshes, backgroundOBJ);
+    STTriangleMesh::LoadObj(gTriangleMeshes, mountainOBJ);
+    //Load more meshes if necessary
     gMassCenter=STTriangleMesh::GetMassCenter(gTriangleMeshes);
     std::cout<<"Mass Center: "<<gMassCenter<<std::endl;
     gBoundingBox=STTriangleMesh::GetBoundingBox(gTriangleMeshes);
@@ -290,8 +294,8 @@ void DisplayCallback()
     // shader programs on anything we draw.
     shader->Bind();
 
-    if(mesh)
-    {
+    //if(mesh)
+    //{
         shader->SetUniform("normalMapping", -1.0);
         shader->SetUniform("displacementMapping", -1.0);
 		shader->SetUniform("colorMapping", 1.0);
@@ -313,6 +317,13 @@ void DisplayCallback()
         gTriangleMeshes[0]->Draw(smooth);
         gTriangleMeshes[1]->Draw(smooth);
         gTriangleMeshes[2]->Draw(smooth);
+    
+        glPushMatrix();
+        glScalef(10.0f, 8.0f, 2.0f);
+        glTranslatef(-1.0f, -3.0f, 0.0f);
+        gTriangleMeshes[4]->Draw(smooth);
+        glPopMatrix();
+
         
         glTranslatef(-12.0f, 10.0f, 18.0f);
         gTriangleMeshes[0]->Draw(smooth);
@@ -339,13 +350,13 @@ void DisplayCallback()
         glTranslatef(-10.0f, -10.0f, 50.0f);
         
         glScalef(30.0f, 30.0f, 3.0f);
-        glTranslatef(0.0f, 0.0f, -50.0f);
+        glTranslatef(0.0f, 0.0f, -90.0f);
         glRotatef(90, 1, 0, 0);
         gTriangleMeshes[3]->Draw(smooth);
         
         glPopMatrix();
-    }
-    else
+    //}
+    /*else
     {
         if(normalMapping){
             shader->SetUniform("displacementMapping", -1.0);
@@ -359,7 +370,9 @@ void DisplayCallback()
             shader->SetUniform("TesselationDepth", TesselationDepth);
         }
         gManualTriangleMesh->Draw(smooth);
-    }
+    }*/
+    //gManualTriangleMesh->Draw(smooth);
+
 
     shader->UnBind();
     
@@ -548,6 +561,7 @@ int main(int argc, char** argv)
 	displacementMap= argc>5?std::string(argv[5]):std::string("images/displacementmap.jpeg");
     
     backgroundOBJ = std::string("meshes/sky.obj");
+    mountainOBJ = std::string("images/mountain.obj");
 
     //
     // Initialize GLUT.
