@@ -27,24 +27,28 @@ std::string normalMap;
 std::string displacementMap;
 std::string meshOBJ;
 std::string backgroundOBJ;
+std::string meshOBJ2;
+std::string meshOBJ3;
+std::string meshOBJ4;
+std::string meshOBJ5;
 
 // Light source attributes
-static float ambientLight[]  = {0.20, 0.20, 0.20, 1.0};
-static float diffuseLight[]  = {1.00, 1.00, 1.00, 1.0};
+static float ambientLight[]  = {0.1, 0.1, 0.1, 1.0};
+static float diffuseLight[]  = {0.75, 0.75, 0.75, 1.0};
 static float specularLight[] = {1.00, 1.00, 1.00, 1.0};
 //Light source that Helen added
-static float ambientLight1[]  = {1.0, 1.0, 1.0, 1.0};
-static float specularLight1[] = {1.0, 1.0, 1.0, 1.0};
-static float diffuseLight1[]  = {1.5, 1.5, 1.5, 1.0};
+static float ambientLight1[]  = {0.2, 0.2, 0.2, 1.0};
+static float specularLight1[] = {0.5, 0.5, 0.5, 1.0};
+static float diffuseLight1[]  = {0.75, 0.75, 0.75, 1.0};
 
-float lightPosition[] = {10.0f, 15.0f, 10.0f, 1.0f};
+float lightPosition[] = {10.0f, 0.0f, 40.0f, 1.0f};
 //Light posisiton that Helen added
 float lightPosition1[] = {-10.0f, 5.0f, -10.0f, 1.0f};
 // Material color properties (also added by Helen
 static float materialAmbient[]  = { 0.5, 0.5, 0.5, 1.0 };
 static float materialDiffuse[]  = { 0.5, 0.5, 0.8, 1.0 };
 static float materialSpecular[] = { 0.8, 0.8, 0.8, 1.0 };
-static float shininess          = 2.0;  // # between 1 and 128.
+static float shininess          = 1.0;  // # between 1 and 128.
 
 STImage   *surfaceNormImg;
 STTexture *surfaceNormTex;
@@ -157,10 +161,10 @@ void Setup()
     glLightfv(GL_LIGHT0, GL_AMBIENT,   ambientLight);
     glLightfv(GL_LIGHT0, GL_DIFFUSE,   diffuseLight);
     //All of this added by Helen
-    /*glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT1);
     glLightfv(GL_LIGHT1, GL_SPECULAR,  specularLight1);
     glLightfv(GL_LIGHT1, GL_AMBIENT,   ambientLight1);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE,   diffuseLight1);*/
+    glLightfv(GL_LIGHT1, GL_DIFFUSE,   diffuseLight1);
     
     glMaterialfv(GL_FRONT, GL_AMBIENT,   materialAmbient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE,   materialDiffuse);
@@ -186,6 +190,10 @@ void Setup()
     
     STTriangleMesh::LoadObj(gTriangleMeshes, meshOBJ);
     STTriangleMesh::LoadObj(gTriangleMeshes, backgroundOBJ);
+    STTriangleMesh::LoadObj(gTriangleMeshes, meshOBJ2);
+    STTriangleMesh::LoadObj(gTriangleMeshes, meshOBJ3);
+    STTriangleMesh::LoadObj(gTriangleMeshes, meshOBJ4);
+    STTriangleMesh::LoadObj(gTriangleMeshes, meshOBJ5);
     gMassCenter=STTriangleMesh::GetMassCenter(gTriangleMeshes);
     std::cout<<"Mass Center: "<<gMassCenter<<std::endl;
     gBoundingBox=STTriangleMesh::GetBoundingBox(gTriangleMeshes);
@@ -311,21 +319,31 @@ void DisplayCallback()
         glTranslatef(0.0f, -20.0f, -60.0f);
         glPushMatrix(); //This is our "center"
         gTriangleMeshes[0]->Draw(smooth);
-        gTriangleMeshes[1]->Draw(smooth);
-        gTriangleMeshes[2]->Draw(smooth);
+        gTriangleMeshes[8]->Draw(smooth);
+        gTriangleMeshes[6]->Draw(smooth);
+        glPopMatrix();
         
-        glTranslatef(-12.0f, 10.0f, 18.0f);
-        gTriangleMeshes[0]->Draw(smooth);
+        glPushMatrix();
+        glTranslatef(5.0f, 10.0f, 50.0f);
+        glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
+        gTriangleMeshes[4]->Draw(smooth);
         gTriangleMeshes[1]->Draw(smooth);
-        gTriangleMeshes[2]->Draw(smooth);
+        gTriangleMeshes[6]->Draw(smooth);
+        
         glTranslatef(12.0f, -10.0f, -18.0f);
+        glPopMatrix();
         
-        glTranslatef(18.0f, 0.0f, -14.0f);
-        gTriangleMeshes[0]->Draw(smooth);
-        gTriangleMeshes[1]->Draw(smooth);
-        gTriangleMeshes[2]->Draw(smooth);
+        glPushMatrix();
+        glTranslatef(-5.0f, 0.0f, 20.0f);
+        glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+        gTriangleMeshes[4]->Draw(smooth);
+        gTriangleMeshes[9]->Draw(smooth);
+        gTriangleMeshes[6]->Draw(smooth);
+        
         glTranslatef(-18.0f, 0.0f, 14.0f);
+        glPopMatrix();
         
+        /*
         glTranslatef(-15.0f, 2.0f, -100.0f);
         gTriangleMeshes[0]->Draw(smooth);
         gTriangleMeshes[1]->Draw(smooth);
@@ -337,10 +355,13 @@ void DisplayCallback()
         gTriangleMeshes[1]->Draw(smooth);
         gTriangleMeshes[2]->Draw(smooth);
         glTranslatef(-10.0f, -10.0f, 50.0f);
+        */
         
-        glScalef(30.0f, 30.0f, 3.0f);
-        glTranslatef(0.0f, 0.0f, -50.0f);
-        glRotatef(90, 1, 0, 0);
+        glPushMatrix();
+       
+        glScalef(30.0f, 30.0f, 7.0f);
+        glTranslatef(0.0f, -8.0f, -70.0f);
+        glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
         gTriangleMeshes[3]->Draw(smooth);
         
         glPopMatrix();
@@ -548,12 +569,17 @@ int main(int argc, char** argv)
 	displacementMap= argc>5?std::string(argv[5]):std::string("images/displacementmap.jpeg");
     
     backgroundOBJ = std::string("meshes/sky.obj");
+    meshOBJ2 = std::string("meshes/balloonbottle2.obj");
+    meshOBJ3 = std::string("meshes/altballoonblue.obj");
+    meshOBJ4 = std::string("meshes/altballoonred.obj");
+    meshOBJ5 = std::string("meshes/altballoonyellow.obj");
+    
 
     //
     // Initialize GLUT.
     //
     glutInit(&argc, argv);
-    glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+    glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
     glutInitWindowPosition(20, 20);
     glutInitWindowSize(640, 480);
     glutCreateWindow("CS148 Assignment 3");
