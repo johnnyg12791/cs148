@@ -1,7 +1,7 @@
-# Blender MTL File: 'newcomposite2.blend'
+# Blender MTL File: 'mountain.blend'
 # Material Count: 1
 
-newmtl Material.007
+newmtl Mountain_Color
 Ns 96.078431
 Ka 0.000000 0.000000 0.000000
 Kd 0.640000 0.640000 0.640000
@@ -9,4 +9,4 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd texture_purple_2_by_coffinrabbitstock-d5h24je.jpg
+map_Kd 040602-137.jpg
