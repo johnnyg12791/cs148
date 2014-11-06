@@ -22,6 +22,7 @@
 		955358C4181EF7DC00E81EA1 /* libst.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955358C1181EF7B000E81EA1 /* libst.a */; };
 		E51930451A08A75F0097D69D /* VolumetricTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E51930441A08A75F0097D69D /* VolumetricTexture.cpp */; };
 		E519304B1A08A8990097D69D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E519304A1A08A8990097D69D /* OpenGL.framework */; };
+		F409EC0C1A0C38600072A73A /* OurScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F409EC0A1A0C38600072A73A /* OurScene.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,8 @@
 		E51930431A08A7570097D69D /* VolumetricTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VolumetricTexture.h; path = Src/VolumetricTexture.h; sourceTree = "<group>"; };
 		E51930441A08A75F0097D69D /* VolumetricTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VolumetricTexture.cpp; path = Src/VolumetricTexture.cpp; sourceTree = "<group>"; };
 		E519304A1A08A8990097D69D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
+		F409EC0A1A0C38600072A73A /* OurScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OurScene.cpp; sourceTree = "<group>"; };
+		F409EC0B1A0C38600072A73A /* OurScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OurScene.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +118,7 @@
 		95163B4B1822BEC900132A80 /* header */ = {
 			isa = PBXGroup;
 			children = (
+				F409EC0B1A0C38600072A73A /* OurScene.h */,
 				E51930431A08A7570097D69D /* VolumetricTexture.h */,
 				95163B4D1828606C00132A80 /* AABB.h */,
 				95163B4E1828606C00132A80 /* AABBTree.h */,
@@ -187,6 +191,7 @@
 				E51930441A08A75F0097D69D /* VolumetricTexture.cpp */,
 				95163B671828608F00132A80 /* AABB.cpp */,
 				95163B681828608F00132A80 /* AABBTree.cpp */,
+				F409EC0A1A0C38600072A73A /* OurScene.cpp */,
 				95163B691828608F00132A80 /* Camera.cpp */,
 				95163B6A1828608F00132A80 /* Cylinder.cpp */,
 				95163B6B1828608F00132A80 /* ExampleScene.cpp */,
@@ -272,6 +277,7 @@
 				95163B7A1828608F00132A80 /* Scene.cpp in Sources */,
 				95163B7B1828608F00132A80 /* Sphere.cpp in Sources */,
 				E51930451A08A75F0097D69D /* VolumetricTexture.cpp in Sources */,
+				F409EC0C1A0C38600072A73A /* OurScene.cpp in Sources */,
 				95163B7E1828608F00132A80 /* UniformGrid.cpp in Sources */,
 				95163B7D1828608F00132A80 /* TriangleMesh.cpp in Sources */,
 				95163B731828608F00132A80 /* AABB.cpp in Sources */,
