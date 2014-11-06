@@ -428,6 +428,60 @@ void ExampleScene::initializeSceneObjMesh2()
     addWall(STPoint3(-10.f,-10.f,-1.f),STVector3(20.f,0.f,0.f),STVector3(0.f,20.f,0.f),true);
 }
 
+void ExampleScene::initializeSceneObjMesh3()
+{
+    rtClear();
+    
+    ////global settings
+    rtCamera(/*eye*/STPoint3(10.f,6.f,23.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(10.f,3.f,0.f),/*fov*/45.f,/*aspect*/1.f);
+    rtOutput(/*width*/512,/*height*/512,/*path*/"../Standard_Tests/ObjMesh3.png");
+    rtBounceDepth(10);
+    rtShadowBias(1e-4f);
+    rtSampleRate(2);
+    
+    ////lighting
+    rtAmbientLight(STColor3f(.1f,.1f,.1f));
+    rtPointLight(STPoint3(15.f,10.f,15.f),STColor3f(.8f,.8f,.8f));
+    rtPointLight(STPoint3(5.f,10.f,15.f),STColor3f(.2f,.2f,.2f));
+    
+    Material mat(STColor3f(.5f,.5f,.5f),STColor3f(.5f,.5f,.5f),STColor3f(),STColor3f(),10.f);
+    rtMaterial(mat);
+    rtPushMatrix();
+    rtTranslate(10.f,1.5f,8.f);
+    //rtRotate(-90.f,0.f,0.f);
+    //rtScale(.1f,.1f,.1f);
+    rtTriangleMesh("../Standard_Tests/bottle/helenbottle2.obj",true,false);
+    rtPopMatrix();
+    
+    Material mat3(STColor3f(.6f,.8f,.9f),STColor3f(.6f,.8f,.9f),STColor3f(),STColor3f(),10.f);
+    rtMaterial(mat3);
+    rtPushMatrix();
+    rtTranslate(13.f,1.5f,10.f);
+    //rtRotate(-90.f,0.f,0.f);
+    rtScale(.4f,.4f,.4f);
+    rtTriangleMesh("../Standard_Tests/bottle/helenbottle2.obj",true,false);
+    rtPopMatrix();
+    
+    ////environment box
+    Material mat_ground(STColor3f(1.f,1.f,1.f),STColor3f(.8f,.8f,.8f),STColor3f(),STColor3f(),30.f);
+    rtMaterial(mat_ground);
+    ////ground
+    addGround(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),true);
+    
+    Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.4f,.2f,.1f),STColor3f(),STColor3f(),30.f);
+    rtMaterial(mat_wall);
+    ////ceil
+    addGround(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),false);
+    ////background wall
+    addBackgroundWall(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),true);
+    //////forward wall
+    //addBackgroundWall(STPoint3(0.f,0.f,20.f),STVector2(20.f,20.f),false);
+    ////left wall
+    addWall(STPoint3(0.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),true);
+    ////right wall
+    addWall(STPoint3(20.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),false);
+}
+
 void ExampleScene::initializeSceneTexture()
 {
 	rtClear();

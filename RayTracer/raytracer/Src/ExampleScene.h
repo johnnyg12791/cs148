@@ -19,6 +19,7 @@ public:
     void initializeSceneTransform();
 	void initializeSceneObjMesh();      ////totoro
     void initializeSceneObjMesh2();     ////turbosonic
+    void initializeSceneObjMesh3();     ////our bottle
 	void initializeSceneTexture();
     void initializeSceneTransparentObject();
 	void initializeSceneTransparentObject2();
