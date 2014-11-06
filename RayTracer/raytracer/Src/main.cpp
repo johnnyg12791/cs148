@@ -2,6 +2,7 @@
 #include "stgl.h"
 #include "stglut.h"
 #include "ExampleScene.h"
+#include "OurScene.h"
 #include <iostream>
 #include <time.h>
 
@@ -9,11 +10,13 @@ using namespace std;
 
 int main(int argc, const char * argv[])
 {
-    ExampleScene *scene = new ExampleScene();
+    //ExampleScene *scene = new ExampleScene();
+    OurScene *scene2 = new OurScene();
+    scene2->initializeAssignment1();
 
     ////or set rendering scene from code
     ////scenes for assignment 4
-    scene->initializeSceneBasicGeometry();
+    //scene->initializeSceneBasicGeometry();
     //scene->initializeSceneBasicLightingAndShading();
     //scene->initializeSceneTransform();
     //scene->initializeSceneObjMesh();
@@ -46,7 +49,8 @@ int main(int argc, const char * argv[])
     clock_t start, end;
     start=clock();
 
-    scene->Render();
+    //scene->Render();
+    scene2->Render();
 
     end=clock();
     cout << "Render time: "<<(double)(end-start) / ((double)CLOCKS_PER_SEC)<<" s"<<std::endl;
