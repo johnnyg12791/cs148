@@ -12,29 +12,67 @@ void OurScene::initializeAssignment1()
     rtClear();
     
     ////global settings
-    rtCamera(/*eye*/STPoint3(0.f,0.f,10.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(0.f,0.f,0.f),/*fov*/45.f,/*aspect*/1.f);
-    rtOutput(/*width*/512,/*height*/512,/*path*/"../Standard_Tests/Assign1.png");
-    rtBounceDepth(1);
-    rtShadowBias(1e-4f);
+    rtCamera(/*eye*/STPoint3(4.f,5.5f,17.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(10.f,3.f,0.f),/*fov*/45.f,/*aspect*/1.33f);
+    rtOutput(/*width*/640,/*height*/480,/*path*/"../Standard_Tests/Assignment4.png");
+    rtBounceDepth(5);
+    rtUseTransparentShadow(true);
+    rtShadowBias(.001f);
     rtSampleRate(4);
     
-    ////lighting:
+    ////lighting
     rtAmbientLight(STColor3f(.1f,.1f,.1f));
-    rtPointLight(/*location*/STPoint3(4.f,4.f,8.f),STColor3f(.5f,.5f,.5f));
-    rtPointLight(/*location*/STPoint3(4.f,-2.f,8.f),STColor3f(.5f,.5f,.5f));
-    //rtDirectionalLight(/*direction*/STVector3(-1.f,-1.f,-1.f),STColor3f(.5f,.5f,.5f));
-    //rtAreaLight(/*v1*/STPoint3(1.5f,.25f,.75f),/*v2*/STPoint3(1.5f,-.25f,1.25f),/*v3*/STPoint3(1.5f,.25f,1.25f),STColor3f(.8f,.8f,.8f));
+    rtPointLight(STPoint3(15.f,10.f,15.f),STColor3f(.6f,.6f,.6f));
+    rtPointLight(STPoint3(5.f,10.f,15.f),STColor3f(.6f,.6f,.6f));
+    //rtPointLight(STPoint3(10.f,15.f,4.f),STColor3f(.2f,.2f,.2f));
     
-    ////objects:
-    ////sphere
-    Material mat_sphere(STColor3f(0.f,0.f,1.f),STColor3f(0.f,0.f,.8f),STColor3f(1.f,1.f,1.f),STColor3f(0.f,0.f,0.f),30.f);
-    rtMaterial(mat_sphere);
-    rtSphere(STPoint3(-.5f,-.5f,1.f),1.f);
+    Material mat_glass1(/*ambient*/STColor3f(),/*diffuse*/STColor3f(),/*spec*/STColor3f(0.f,0.f,0.f),/*mirror*/STColor3f(0.f,0.f,0.f),/*shiness*/0.f,/*refr*/STColor3f(.9f,.3f,.1f),/*sn*/1.3f);
+    Material mat_glass2(/*ambient*/STColor3f(),/*diffuse*/STColor3f(),/*spec*/STColor3f(1.f,1.f,1.f),/*mirror*/STColor3f(.1f,.1f,.1f),/*shiness*/30.f,/*refr*/STColor3f(.7f,.6f,.9f),/*sn*/1.3f);
+    Material mat_metal(/*ambient*/STColor3f(.5f,.5f,.5f),/*diffuse*/STColor3f(.5f,.5f,.5f),/*spec*/STColor3f(.5f,.5f,.5f),/*mirror*/STColor3f(.5f,.5f,.5f),/*shiness*/120.f);
     
-    ////background wall
-    Material mat_ground(STColor3f(1.f,1.f,1.f),STColor3f(0.8f,0.8f,.8f),STColor3f(0.f,0.f,0.f),STColor3f(0.f,0.f,0.f),30.f);
+    //rtMaterial(mat_glass1);
+    //rtSphere(STPoint3(8.f,1.01f,5.f),1.f);
+    
+    rtMaterial(mat_metal);
+    rtSphere(STPoint3(10.f,1.01f,6.f),1.f);
+    
+    //rtMaterial(mat_metal);
+    //rtCylinder(STPoint3(9.f,0.01f,5.f),STPoint3(9.f,3.01f,5.f),1.f);
+    
+    //rtMaterial(mat_glass2);
+    //rtBox(STPoint3(12.f,2.01f,5.f),STVector3(2.f,4.f,.8f));
+    
+    Material mat_glass(/*ambient*/STColor3f(.1f,.1f,.1f),/*diffuse*/STColor3f(),/*spec*/STColor3f(0.5f,0.5f,0.5f),/*mirror*/STColor3f(.2f,.2f,.2f),/*shiness*/30.f,/*refr*/STColor3f(.7f,.6f,.9f),/*sn*/1.2f);
+    rtMaterial(mat_glass2);
+    rtAttenuation(1.f);
+    rtPushMatrix();
+    rtTranslate(7.f,2.5f,5.f);
+    rtTriangleMesh("../Standard_Tests/helenbottle.obj",true,false);
+    rtPopMatrix();
+    
+    rtMaterial(mat_glass1);
+    rtPushMatrix();
+    rtTranslate(10.f,2.5f,3.f);
+    rtTriangleMesh("../Standard_Tests/helenbottle.obj",true,false);
+    rtPopMatrix();
+    
+    ////environment box
+    Material mat_ground(STColor3f(1.f,1.f,1.f),STColor3f(.8f,.8f,.8f),STColor3f(),STColor3f(),0.f);
+    Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.4f,.2f,.1f),STColor3f(),STColor3f(),30.f);
     rtMaterial(mat_ground);
-    addBackgroundWall(STPoint3(-8.f,-8.f,-1.f),STVector2(16.f,16.f));
+    ////ground
+    addGround(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),true);
+    
+    rtMaterial(mat_wall);
+    ////ceil
+    addGround(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),false);
+    ////background wall
+    addBackgroundWall(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),true);
+    ////forward wall
+    addBackgroundWall(STPoint3(0.f,0.f,20.f),STVector2(20.f,20.f),false);
+    ////left wall
+    addWall(STPoint3(0.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),true);
+    ////right wall
+    addWall(STPoint3(20.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),false);
 }
 
 
