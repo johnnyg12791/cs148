@@ -38,8 +38,8 @@ void OurScene::initializeAssignment1()
     //rtMaterial(mat_metal);
     //rtCylinder(STPoint3(9.f,0.01f,5.f),STPoint3(9.f,3.01f,5.f),1.f);
     
-    //rtMaterial(mat_glass2);
-    //rtBox(STPoint3(12.f,2.01f,5.f),STVector3(2.f,4.f,.8f));
+    rtMaterial(mat_metal);
+    rtBox(STPoint3(16.f,1.f,1.f),STVector3(2.f,4.f,.8f));
     
     Material mat_glass(/*ambient*/STColor3f(.1f,.1f,.1f),/*diffuse*/STColor3f(),/*spec*/STColor3f(0.5f,0.5f,0.5f),/*mirror*/STColor3f(.2f,.2f,.2f),/*shiness*/30.f,/*refr*/STColor3f(.7f,.6f,.9f),/*sn*/1.2f);
     rtMaterial(mat_glass2);

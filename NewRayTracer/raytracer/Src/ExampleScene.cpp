@@ -244,8 +244,8 @@ void ExampleScene::initializeSceneTransparentObject()
 	rtClear();
 
 	////global settings
-	rtCamera(/*eye*/STPoint3(10.f,5.f,19.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(10.f,3.f,0.f),/*fov*/45.f,/*aspect*/1.33f);
-	rtOutput(/*width*/640,/*height*/480,/*path*/"../Standard_Tests/TransparentObject.png");
+	rtCamera(/*eye*/STPoint3(4.f,5.f,19.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(10.f,3.f,0.f),/*fov*/45.f,/*aspect*/1.33f);
+	rtOutput(/*width*/640,/*height*/480,/*path*/"../Standard_Tests/TransparentObjectNewCamera.png");
 	rtBounceDepth(5);
 	rtUseTransparentShadow(true);
 	rtShadowBias(.001f);
