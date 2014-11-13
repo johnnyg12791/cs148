@@ -10,9 +10,10 @@ using namespace std;
 
 int main(int argc, const char * argv[])
 {
-    //ExampleScene *scene = new ExampleScene();
+    ExampleScene *scene = new ExampleScene();
     OurScene *scene2 = new OurScene();
-    //scene2->initializeAssignment1();
+    //scene2->initializeAssignment4();
+    scene2->initializeAssignment5AABB();
     
     ////or set rendering scene from code
     ////scenes for assignment 4
@@ -22,7 +23,7 @@ int main(int argc, const char * argv[])
     //scene->initializeSceneObjMesh();
     //scene->initializeSceneObjMesh2();
     //scene->initializeSceneTexture();
-    scene2->initializeAssignment1();
+    //scene2->initializeAssignment1();
     //scene->initializeSceneTransparentObject2();
 
     ////scenes for assignment 5

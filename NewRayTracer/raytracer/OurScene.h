@@ -21,7 +21,10 @@ public:
     OurScene(){}
     ~OurScene(){}
     
-    void initializeAssignment1();
+    void initializeAssignment4();
+    void initializeAssignment5AABB();
+    void initializeAssignment5Grid();
+
     ////initializing scenes
     ////example scenes assignment 4: basic geometry, shading, texturing, and transparency
     /*void initializeSceneBasicGeometry();
