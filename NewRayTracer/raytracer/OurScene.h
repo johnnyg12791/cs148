@@ -25,6 +25,10 @@ public:
     void initializeAssignment5AABB();
     void initializeAssignment5SampleRate(int rate);
     void initializeAssignment5Grid();
+    
+    void addClusteredObjects();
+    void addUniformObjects();
+    void addWallsAndGround();
 
     ////initializing scenes
     ////example scenes assignment 4: basic geometry, shading, texturing, and transparency
