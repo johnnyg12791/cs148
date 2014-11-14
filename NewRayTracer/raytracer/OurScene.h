@@ -23,6 +23,7 @@ public:
     
     void initializeAssignment4();
     void initializeAssignment5AABB();
+    void initializeAssignment5SampleRate(int rate);
     void initializeAssignment5Grid();
 
     ////initializing scenes

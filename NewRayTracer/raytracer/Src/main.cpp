@@ -13,7 +13,13 @@ int main(int argc, const char * argv[])
     ExampleScene *scene = new ExampleScene();
     OurScene *scene2 = new OurScene();
     //scene2->initializeAssignment4();
-    scene2->initializeAssignment5AABB();
+    
+    //scene2->initializeAssignment5AABB();
+    //scene2->initializeAssignment5Grid();
+    //scene2->initializeAssignment5SampleRate(1);
+    //scene2->initializeAssignment5SampleRate(2);
+    //scene2->initializeAssignment5SampleRate(4);
+
     
     ////or set rendering scene from code
     ////scenes for assignment 4
