@@ -89,9 +89,6 @@ void OurScene::addClusteredObjects()
                 rtCylinder(STPoint3(x-1.5,y,z),STPoint3(x-.5,y+1,z),1.f);
                 rtCylinder(STPoint3(x,y+1.5,z),STPoint3(x+1,y+2.5,z),1.f);
                 rtCylinder(STPoint3(x-1.5,y+1.5,z),STPoint3(x-.5,y+2.5,z),1.f);
-            
-                Material mat_sphere(/*ambient*/STColor3f(1.f,1.f,1.f),/*diffuse*/STColor3f(0.f,1.f,0.f),/*specular*/STColor3f(0.f,0.f,0.f),/*mirror*/STColor3f(0.f,0.f,0.f),/*shiness*/0.f);
-                //rtMaterial(mat_sphere);
                 
                 rtSphere(STPoint3(x-.5, y+.75f, z+1), 1);
                 rtSphere(STPoint3(x-1.5, y+1.75f, z+1), 1);
@@ -99,7 +96,6 @@ void OurScene::addClusteredObjects()
                 //rtSphere(STPoint3(x-.5, y+3.25f, z), 1);
                 rtTranslate(10.f,0.f,0.f);
                 rtTriangleMesh("../Standard_Tests/helenbottle.obj",true,false);
-
 
                 rtPopMatrix();
             }
@@ -124,8 +120,6 @@ void OurScene::addUniformObjects()
             rtSphere(STPoint3(9.f,0.0f,z), .5);
             rtSphere(STPoint3(8.f,1.0f,z), .5);
             rtSphere(STPoint3(9.f,1.0f,z), .5);
-
-
 
             rtPopMatrix();
         }
@@ -248,6 +242,17 @@ void OurScene::initializeAssignment5SampleRate(int rate)
     addWall(STPoint3(0.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),true);
     ////right wall
     addWall(STPoint3(20.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),false);
+    
+    //Uniform Grid
+    //accel_structure=UNIFORM_GRID;
+    //AABB scene_bounding_box;getObjectsAABB(objects,scene_bounding_box);
+    //int subdivision[3]={20,20,2};
+    //uniform_grid=new UniformGrid(objects,scene_bounding_box,subdivision);
+    
+    //AABB Tree
+    accel_structure=AABB_TREE;
+    AABBTree* aabb_tree=new AABBTree(objects);
+    aabb_trees.push_back(aabb_tree);
     
 }
 
