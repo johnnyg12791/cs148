@@ -177,7 +177,7 @@ void OurScene::initializeAssignment5Grid()
     //Adding UniformGrid acceleration
     accel_structure=UNIFORM_GRID;
     AABB scene_bounding_box;getObjectsAABB(objects,scene_bounding_box);
-    int subdivision[3]={20,20,2};
+    int subdivision[3]={60,60,2};
     uniform_grid=new UniformGrid(objects,scene_bounding_box,subdivision);
     
     
@@ -244,15 +244,15 @@ void OurScene::initializeAssignment5SampleRate(int rate)
     addWall(STPoint3(20.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),false);
     
     //Uniform Grid
-    //accel_structure=UNIFORM_GRID;
-    //AABB scene_bounding_box;getObjectsAABB(objects,scene_bounding_box);
-    //int subdivision[3]={20,20,2};
-    //uniform_grid=new UniformGrid(objects,scene_bounding_box,subdivision);
+    accel_structure=UNIFORM_GRID;
+    AABB scene_bounding_box;getObjectsAABB(objects,scene_bounding_box);
+    int subdivision[3]={5,5,2};
+    uniform_grid=new UniformGrid(objects,scene_bounding_box,subdivision);
     
     //AABB Tree
-    accel_structure=AABB_TREE;
-    AABBTree* aabb_tree=new AABBTree(objects);
-    aabb_trees.push_back(aabb_tree);
+    //accel_structure=AABB_TREE;
+    //AABBTree* aabb_tree=new AABBTree(objects);
+    //aabb_trees.push_back(aabb_tree);
     
 }
 
