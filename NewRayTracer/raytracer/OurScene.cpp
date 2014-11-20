@@ -39,15 +39,20 @@ void OurScene::initializeAssignment6()
     rtMaterial(mat_sphere2);
     rtSphere(STPoint3(-1.f,0.f,-1.f),1.f);
     
-    ////sphere3
-    Material mat_sphere3(/*ambient*/STColor3f(.0f,1.f,.0f),/*diffuse*/STColor3f(.0f,1.f,.0f),/*specular*/STColor3f(.3f,.3f,.3f),/*mirror*/STColor3f(0.f,0.3f,0.f),/*shiness*/50.f);
-    rtMaterial(mat_sphere3);
+
     rtScale(.25, .25, .25);
     rtTranslate(10, -2, 0);
+    //rtTriangleMeshWithMaterialAndTexture("../Standard_Tests/balloonbottle1.obj", true, false);
+    //rtTriangleMeshWithMaterialAndTexture("../Standard_Tests/bottle_noTexture_withBallon.obj", true, false);
+    Material mat_glass(/*ambient*/STColor3f(.1f,.1f,.1f),/*diffuse*/STColor3f(),/*spec*/STColor3f(0.5f,0.5f,0.5f),/*mirror*/STColor3f(.2f,.2f,.2f),/*shiness*/30.f,/*refr*/STColor3f(.7f,.6f,.9f),/*sn*/1.2f);
+    rtMaterial(mat_glass);
     rtTriangleMesh("../Standard_Tests/helenbottle.obj",true,false);
     rtTranslate(-10, 2, 0);
     rtScale(4, 4, 4);
-    //rtTriangleMesh("../Standard_Tests/balloonbottle1.obj", true, false);
+
+    ////sphere3
+    Material mat_sphere3(/*ambient*/STColor3f(.0f,1.f,.0f),/*diffuse*/STColor3f(.0f,1.f,.0f),/*specular*/STColor3f(.3f,.3f,.3f),/*mirror*/STColor3f(0.f,0.3f,0.f),/*shiness*/50.f);
+    rtMaterial(mat_sphere3);
     rtSphere(STPoint3(.2f,-.5f,1.f),.5f);
     
     ////set focus on sphere 3
