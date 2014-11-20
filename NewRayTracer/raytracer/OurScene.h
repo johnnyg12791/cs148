@@ -25,6 +25,7 @@ public:
     void initializeAssignment5AABB();
     void initializeAssignment5SampleRate(int rate);
     void initializeAssignment5Grid();
+    void initializeAssignment6();
     
     void addClusteredObjects();
     void addUniformObjects();

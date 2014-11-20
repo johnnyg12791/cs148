@@ -18,7 +18,8 @@ int main(int argc, const char * argv[])
     //scene2->initializeAssignment5Grid();
     //scene2->initializeAssignment5SampleRate(4);
     //scene2->initializeAssignment5SampleRate(2);
-    scene2->initializeAssignment5SampleRate(1);
+    //scene2->initializeAssignment5SampleRate(1);
+    scene2->initializeAssignment6();
 
     
     ////or set rendering scene from code
