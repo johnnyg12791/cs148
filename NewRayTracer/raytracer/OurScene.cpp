@@ -14,50 +14,120 @@ void OurScene::initializeAssignment6()
     rtClear();
     
     ////global settings
-    rtCamera(/*eye*/STPoint3(0.f,1.f,6.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(0.f,0.f,0.f),/*fov*/55.f,/*aspect*/1.f);
+    
+    rtCamera(/*eye*/STPoint3(10.f,6.f,19.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(10.f,1.f,0.f),/*fov*/45.f,/*aspect*/1.f);
     rtOutput(/*width*/512,/*height*/512,/*path*/"../Standard_Tests/Assignment6.png");
-    rtBounceDepth(3);
-    rtUseShadow(true);
+    rtBounceDepth(5);
+    rtUseTransparentShadow(true);
     rtShadowBias(1e-4f);
     rtSampleRate(4);
     
+    ////lighting
     rtAmbientLight(STColor3f(.1f,.1f,.1f));
-    rtPointLight(STPoint3(0.f,3.f,2.f),STColor3f(1.f,1.f,1.f));
-    
-    ////ground
-    Material mat_tri(/*ambient*/STColor3f(1.f,1.f,1.f),/*diffuse*/STColor3f(.4f,.4f,.4f),/*specular*/STColor3f(.0f,.0f,.0f),/*mirror*/STColor3f(.9f,.9f,.9f),/*shiness*/0.f);
-    rtMaterial(mat_tri);
-    addGround(STPoint3(-500.f,-1.f,-500.f),STVector2(1000.f,1000.f),true);
-    
-    ////sphere1
-    Material mat_sphere1(/*ambient*/STColor3f(1.f,.75f,.75f),/*diffuse*/STColor3f(1.f,.75f,.75f),/*specular*/STColor3f(1.f,1.f,1.f),/*mirror*/STColor3f(.75f,.75f,.75f),/*shiness*/50.f);
-    rtMaterial(mat_sphere1);
-    rtSphere(STPoint3(1.f,0.f,-3.f),1.f);
-    
-    ////sphere2
-    Material mat_sphere2(/*ambient*/STColor3f(.75f,.75f,1.f),/*diffuse*/STColor3f(.75f,.75f,1.f),/*specular*/STColor3f(0.f,0.f,0.f),/*mirror*/STColor3f(0.f,0.f,0.f),/*shiness*/0.f);
-    rtMaterial(mat_sphere2);
-    rtSphere(STPoint3(-1.f,0.f,-1.f),1.f);
-    
-
-    rtScale(.25, .25, .25);
-    rtTranslate(10, -2, 0);
-    //rtTriangleMeshWithMaterialAndTexture("../Standard_Tests/balloonbottle1.obj", true, false);
-    //rtTriangleMeshWithMaterialAndTexture("../Standard_Tests/bottle_noTexture_withBallon.obj", true, false);
+    rtPointLight(STPoint3(10.f,10.f,15.f),STColor3f(.2f,.2f,.2f));
+    rtPointLight(STPoint3(10.f,10.f,5.f),STColor3f(.2f,.2f,.2f));
+    rtPointLight(STPoint3(5.f,10.f,8.f),STColor3f(.2f,.2f,.2f));
+    rtPointLight(STPoint3(15.f,10.f,8.f),STColor3f(.2f,.2f,.2f));
+    rtPointLight(STPoint3(10.f,8.f,16.f),STColor3f(.2f,.2f,.2f));
+    Material mat(STColor3f(.5f,.5f,.5f),STColor3f(.3f,.3f,.3f),STColor3f(),STColor3f(),10.f);
     Material mat_glass(/*ambient*/STColor3f(.1f,.1f,.1f),/*diffuse*/STColor3f(),/*spec*/STColor3f(0.5f,0.5f,0.5f),/*mirror*/STColor3f(.2f,.2f,.2f),/*shiness*/30.f,/*refr*/STColor3f(.7f,.6f,.9f),/*sn*/1.2f);
     rtMaterial(mat_glass);
-    rtTriangleMesh("../Standard_Tests/helenbottle.obj",true,false);
-    rtTranslate(-10, 2, 0);
-    rtScale(4, 4, 4);
-
-    ////sphere3
-    Material mat_sphere3(/*ambient*/STColor3f(.0f,1.f,.0f),/*diffuse*/STColor3f(.0f,1.f,.0f),/*specular*/STColor3f(.3f,.3f,.3f),/*mirror*/STColor3f(0.f,0.3f,0.f),/*shiness*/50.f);
-    rtMaterial(mat_sphere3);
-    rtSphere(STPoint3(.2f,-.5f,1.f),.5f);
+    rtAttenuation(1.f);
     
-    ////set focus on sphere 3
-    rtSetApeture(20.f);
-    rtSetFocus(STPoint3(.2f, -.5f, 1.f));
+    rtPushMatrix();
+    rtTranslate(9.f,4.f,15.f);
+    rtScale(.25f,.25f,.25f);
+    //rtTriangleMesh("../Standard_Tests/bunny.obj",true,false);
+    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,false);
+    rtPopMatrix();
+    
+    ////environment box
+    Material mat_ground(STColor3f(1.f,1.f,1.f),STColor3f(.8f,.8f,.8f),STColor3f(),STColor3f(),30.f);
+    rtMaterial(mat_ground);
+    ////ground
+    addGround(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),true);
+    
+    ////ceil
+    Material mat_ceil(STColor3f(1.f,1.f,1.f),STColor3f(.2f,.2f,.48f),STColor3f(),STColor3f(),30.f);
+    rtMaterial(mat_ceil);
+    addGround(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),false);
+    ////background wall
+    Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.2f,.5f,.9f),STColor3f(),STColor3f(),30.f);
+    rtMaterial(mat_wall);
+    addBackgroundWall(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),true);
+    //////forward wall
+    addBackgroundWall(STPoint3(0.f,0.f,20.f),STVector2(20.f,20.f),false);
+    ////left wall
+    Material mat_left_wall(STColor3f(1.1f,1.f,1.f),STColor3f(.1f,.8f,.1f),STColor3f(),STColor3f(),30.f);
+    rtMaterial(mat_left_wall);
+    addWall(STPoint3(0.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),true);
+    ////right wall
+    Material mat_right_wall(STColor3f(1.1f,1.f,1.f),STColor3f(.1f,.2f,.8f),STColor3f(),STColor3f(),30.f);
+    rtMaterial(mat_right_wall);
+    addWall(STPoint3(20.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),false);
+
+
+//    rtClear();
+//
+//    ////global settings
+//    rtCamera(/*eye*/STPoint3(0.f,1.f,6.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(0.f,0.f,0.f),/*fov*/55.f,/*aspect*/1.f);
+//    rtOutput(/*width*/512,/*height*/512,/*path*/"../Standard_Tests/Assignment6.png");
+//    rtBounceDepth(3);
+//    rtUseShadow(true);
+//    rtShadowBias(1e-4f);
+//    rtSampleRate(4);
+//    
+//    rtAmbientLight(STColor3f(.1f,.1f,.1f));
+//    rtPointLight(STPoint3(0.f,3.f,2.f),STColor3f(1.f,1.f,1.f));
+//    
+//    ////ground
+//    Material mat_tri(/*ambient*/STColor3f(1.f,1.f,1.f),/*diffuse*/STColor3f(.4f,.4f,.4f),/*specular*/STColor3f(.0f,.0f,.0f),/*mirror*/STColor3f(.9f,.9f,.9f),/*shiness*/0.f);
+//    rtMaterial(mat_tri);
+//    addGround(STPoint3(-500.f,-1.f,-500.f),STVector2(1000.f,1000.f),true);
+//    
+//    ////sphere1
+//    Material mat_sphere1(/*ambient*/STColor3f(1.f,.75f,.75f),/*diffuse*/STColor3f(1.f,.75f,.75f),/*specular*/STColor3f(1.f,1.f,1.f),/*mirror*/STColor3f(.75f,.75f,.75f),/*shiness*/50.f);
+//    rtMaterial(mat_sphere1);
+//    rtSphere(STPoint3(1.f,0.f,-3.f),1.f);
+//    
+//    ////sphere2
+//    Material mat_sphere2(/*ambient*/STColor3f(.75f,.75f,1.f),/*diffuse*/STColor3f(.75f,.75f,1.f),/*specular*/STColor3f(0.f,0.f,0.f),/*mirror*/STColor3f(0.f,0.f,0.f),/*shiness*/0.f);
+//    rtMaterial(mat_sphere2);
+//    rtSphere(STPoint3(-1.f,0.f,-1.f),1.f);
+//    
+//    rtPushMatrix();
+//    rtScale(.25, .25, .25);
+//    rtTranslate(3, -2, 2);
+//    //rtTriangleMeshWithMaterialAndTexture("../Standard_Tests/balloonbottle1.obj", true, false);
+//    //rtTriangleMeshWithMaterialAndTexture("../Standard_Tests/bottle_noTexture_withBallon.obj", true, false);
+//    Material mat_glass(/*ambient*/STColor3f(.1f,.1f,.1f),/*diffuse*/STColor3f(),/*spec*/STColor3f(0.5f,0.5f,0.5f),/*mirror*/STColor3f(.2f,.2f,.2f),/*shiness*/30.f,/*refr*/STColor3f(.7f,.6f,.9f),/*sn*/1.2f);
+//    Material mat_glass1(/*ambient*/STColor3f(),/*diffuse*/STColor3f(),/*spec*/STColor3f(0.f,0.f,0.f),/*mirror*/STColor3f(0.f,0.f,0.f),/*shiness*/0.f,/*refr*/STColor3f(.9f,.3f,.1f),/*sn*/1.3f);
+//    rtMaterial(mat_glass1);
+//    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+//    //rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,false);
+//    rtPopMatrix();
+//    
+//
+//    ////sphere3
+//    Material mat_sphere3(/*ambient*/STColor3f(.0f,1.f,.0f),/*diffuse*/STColor3f(.0f,1.f,.0f),/*specular*/STColor3f(.3f,.3f,.3f),/*mirror*/STColor3f(0.f,0.3f,0.f),/*shiness*/50.f);
+//    rtMaterial(mat_sphere3);
+//    rtSphere(STPoint3(.2f,-.5f,1.f),.5f);
+//    
+//    ////set focus on sphere 3
+//    rtSetApeture(20.f);
+//    rtSetFocus(STPoint3(.2f, -.5f, 1.f));
+//    
+//    Material mat_wall(STColor3f(.5f,.5f,1.f),STColor3f(.4f,.2f,1.f),STColor3f(),STColor3f(),30.f);
+//    rtMaterial(mat_wall);
+//    ////background wall
+//    //addBackgroundWall(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),true);
+//    ////forward wall
+//    //addBackgroundWall(STPoint3(0.f,0.f,20.f),STVector2(20.f,20.f),false);
+//    ////left wall
+//    //addWall(STPoint3(0.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),true);
+//    ////right wall
+//    //addWall(STPoint3(20.f,0.f,0.f),STVector3(0.f,20.f,0.f),STVector3(0.f,0.f,20.f),false);
 }
 
 
@@ -105,7 +175,7 @@ void OurScene::initializeAssignment4()
     
     ////environment box
     Material mat_ground(STColor3f(1.f,1.f,1.f),STColor3f(.8f,.8f,.8f),STColor3f(),STColor3f(),0.f);
-    Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.4f,.2f,.1f),STColor3f(),STColor3f(),30.f);
+    Material mat_wall(STColor3f(.5f,.5f,1.f),STColor3f(.4f,.2f,.1f),STColor3f(),STColor3f(),30.f);
     rtMaterial(mat_ground);
     ////ground
     //addGround(STPoint3(0.f,0.f,0.f),STVector2(20.f,20.f),true);
