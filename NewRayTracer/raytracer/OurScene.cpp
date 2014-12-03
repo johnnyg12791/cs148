@@ -14,7 +14,7 @@ void OurScene::initializeAssignment6()
     rtClear();
     
     ////global settings
-    rtCamera(/*eye*/STPoint3(0.f,0.f,15.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(0.f,0.f,-20.f),/*fov*/60.f,/*aspect*/1.f);
+    rtCamera(/*eye*/STPoint3(0.f,5.f,15.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(0.f,-10.f,-100.f),/*fov*/60.f,/*aspect*/1.f);
     rtOutput(/*width*/512,/*height*/512,/*path*/"../Standard_Tests/Assignment6f.png");
     rtBounceDepth(8);
     rtShadowBias(1e-4f);
@@ -25,19 +25,24 @@ void OurScene::initializeAssignment6()
     rtPointLight(STPoint3(3.f,12.f,10.f),STColor3f(1.f,1.f,1.f));
 
     //back wall(sky)
-    //Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.2f,.5f,.9f),STColor3f(),STColor3f(),30.f);
-    //rtMaterial(mat_wall);
+    Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.2f,.5f,.9f),STColor3f(),STColor3f(),30.f);
+    rtMaterial(mat_wall);
     //bottom left (x,y,z), (length, width)
-    //addBackgroundWall(STPoint3(-500.f,-200.f,-500.f),STVector2(1000.f,1000.f),true);
+    addBackgroundWall(STPoint3(-500.f,-200.f,-500.f),STVector2(1000.f,1000.f),true);
     //Sky will go here
     
     
     //ground (possible mountains)
-    Material mat_ground(STColor3f(1.f,1.f,1.f),STColor3f(.8f,.8f,.8f),STColor3f(),STColor3f(),30.f);
-    rtMaterial(mat_ground);
+    //Material mat_ground(STColor3f(1.f,1.f,1.f),STColor3f(.8f,.8f,.8f),STColor3f(),STColor3f(),30.f);
+    //rtMaterial(mat_ground);
     //Not exactly sure what these correspond to but....seems to work
-    addGround(STPoint3(-500.f,-50.f,-500.f),STVector2(1000.f,1000.f),true);
+    //addGround(STPoint3(-500.f,-50.f,-500.f),STVector2(1000.f,1000.f),true);
+    rtPushMatrix();
+    rtTranslate(0.f, -20.f, -60.f);
+    rtScale(7.f, 7.f, 7.f);
     
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/mountain.obj", true, false);
+    rtPopMatrix();
     
     Material mat_glass(/*ambient*/STColor3f(.1f,.1f,.1f),/*diffuse*/STColor3f(),/*spec*/STColor3f(0.5f,0.5f,0.5f),/*mirror*/STColor3f(.2f,.2f,.2f),/*shiness*/30.f,/*refr*/STColor3f(.7f,.6f,.9f),/*sn*/1.2f);
     rtMaterial(mat_glass);
@@ -67,7 +72,7 @@ void OurScene::initializeAssignment6()
     
     Material mat_cloud(/*ambient*/STColor3f(.5f,.5f,.5f),/*diffuse*/STColor3f(.5f,.5f,.5f),/*spec*/STColor3f(.5f,.5f,.5f),/*mirror*/STColor3f(.5f,.5f,.5f),/*shiness*/120.f);
     rtMaterial(mat_cloud);
-    rtMaterial(mat_ground);
+    //rtMaterial(mat_ground);
 
     addCloud(-8, 14, 0, 1.2);
     addCloud(15, 20, -10, 1.8);
