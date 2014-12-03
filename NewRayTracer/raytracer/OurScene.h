@@ -26,7 +26,9 @@ public:
     void initializeAssignment5SampleRate(int rate);
     void initializeAssignment5Grid();
     void initializeAssignment6();
-    
+    void initializeAssignment6b();
+
+    void addCloud(int x, int y, int z, int size);
     void addClusteredObjects();
     void addUniformObjects();
     void addWallsAndGround();
