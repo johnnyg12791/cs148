@@ -18,17 +18,18 @@ void OurScene::initializeAssignment6()
     rtOutput(/*width*/512,/*height*/512,/*path*/"../Standard_Tests/Assignment6f.png");
     rtBounceDepth(8);
     rtShadowBias(1e-4f);
-    rtSampleRate(4);
+    rtSampleRate(1);
     
     ////lighting
     rtAmbientLight(STColor3f(.1f,.1f,.1f));
     rtPointLight(STPoint3(3.f,12.f,10.f),STColor3f(1.f,1.f,1.f));
 
     //back wall(sky)
-    Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.2f,.5f,.9f),STColor3f(),STColor3f(),30.f);
-    rtMaterial(mat_wall);
+    //Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.2f,.5f,.9f),STColor3f(),STColor3f(),30.f);
+    //rtMaterial(mat_wall);
     //bottom left (x,y,z), (length, width)
-    addBackgroundWall(STPoint3(-500.f,-200.f,-500.f),STVector2(1000.f,1000.f),true);
+    //addBackgroundWall(STPoint3(-500.f,-200.f,-500.f),STVector2(1000.f,1000.f),true);
+    //Sky will go here
     
     
     //ground (possible mountains)
@@ -47,20 +48,20 @@ void OurScene::initializeAssignment6()
     rtScale(.4f, .4f, .4f);
 
     rtPushMatrix();
-    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    //rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
     rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,false);
     rtPopMatrix();
     
     rtPushMatrix();
     rtTranslate(10.f, 5.f, -5.f);
     rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,false);
-    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    //rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
     rtPopMatrix();
     
     rtPushMatrix();
     rtTranslate(-12.f, -7.f, -12.f);
     rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,false);
-    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    //rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
     rtPopMatrix();
     
     
@@ -73,8 +74,8 @@ void OurScene::initializeAssignment6()
     
     
     //DEPTH OF FIELD
-    rtSetApeture(10.f);
-    rtSetFocus(STPoint3(0.f, 0.f, 3.f));
+    //rtSetApeture(10.f);
+    //rtSetFocus(STPoint3(0.f, 0.f, 3.f));
     
     accel_structure=AABB_TREE;
     AABBTree* aabb_tree=new AABBTree(objects);
