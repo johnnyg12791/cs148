@@ -14,34 +14,41 @@ void OurScene::initializeAssignment6()
     rtClear();
     
     ////global settings
-    rtCamera(/*eye*/STPoint3(0.f,5.f,15.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(0.f,-10.f,-100.f),/*fov*/60.f,/*aspect*/1.f);
+    rtCamera(/*eye*/STPoint3(0.f,10.f,15.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(0.f,-10.f,-200.f),/*fov*/60.f,/*aspect*/1.f);
     rtOutput(/*width*/512,/*height*/512,/*path*/"../Standard_Tests/Assignment6f.png");
     rtBounceDepth(8);
     rtShadowBias(1e-4f);
-    rtSampleRate(1);
+    rtSampleRate(4);
     
     ////lighting
     rtAmbientLight(STColor3f(.1f,.1f,.1f));
-    rtPointLight(STPoint3(3.f,12.f,10.f),STColor3f(1.f,1.f,1.f));
+    //rtPointLight(STPoint3(3.f,12.f,10.f),STColor3f(1.f,1.f,1.f));
+    rtPointLight(STPoint3(10.f,40.f,60.f),STColor3f(1.f,1.f,1.f));
 
     //back wall(sky)
     Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.2f,.5f,.9f),STColor3f(),STColor3f(),30.f);
     rtMaterial(mat_wall);
     //bottom left (x,y,z), (length, width)
-    addBackgroundWall(STPoint3(-500.f,-200.f,-500.f),STVector2(1000.f,1000.f),true);
+    //addBackgroundWall(STPoint3(-500.f,-200.f,-500.f),STVector2(1000.f,1000.f),true);
     //Sky will go here
+    rtPushMatrix();
+    rtTranslate(0.f, 0.f, -1200.f);
+    rtScale(100, 100, 1);
+    rtRotate(90.f, 0.f, 0.f);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/sky.obj", true, false);
+
+    rtPopMatrix();
     
     
     //ground (possible mountains)
-    //Material mat_ground(STColor3f(1.f,1.f,1.f),STColor3f(.8f,.8f,.8f),STColor3f(),STColor3f(),30.f);
     //rtMaterial(mat_ground);
     //Not exactly sure what these correspond to but....seems to work
     //addGround(STPoint3(-500.f,-50.f,-500.f),STVector2(1000.f,1000.f),true);
     rtPushMatrix();
-    rtTranslate(0.f, -20.f, -60.f);
-    rtScale(7.f, 7.f, 7.f);
-    
-    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/mountain.obj", true, false);
+    rtTranslate(-25.f, -20.f, -35.f);
+    rtScale(10.f, 10.f, 3.f);
+
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/mountain.obj", true, true);
     rtPopMatrix();
     
     Material mat_glass(/*ambient*/STColor3f(.1f,.1f,.1f),/*diffuse*/STColor3f(),/*spec*/STColor3f(0.5f,0.5f,0.5f),/*mirror*/STColor3f(.2f,.2f,.2f),/*shiness*/30.f,/*refr*/STColor3f(.7f,.6f,.9f),/*sn*/1.2f);
@@ -53,34 +60,41 @@ void OurScene::initializeAssignment6()
     rtScale(.4f, .4f, .4f);
 
     rtPushMatrix();
-    //rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
-    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,false);
+    rtTranslate(4.f, 20.f, 25.f);
+    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,true);
     rtPopMatrix();
     
     rtPushMatrix();
-    rtTranslate(10.f, 5.f, -5.f);
-    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,false);
-    //rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    rtTranslate(5.f, 9.f, 10.f);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,true);
+    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
     rtPopMatrix();
     
     rtPushMatrix();
-    rtTranslate(-12.f, -7.f, -12.f);
-    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,false);
-    //rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    rtTranslate(-10.f, 0.f, -5.f);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,true);
+    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
     rtPopMatrix();
     
+    rtPushMatrix();
+    rtTranslate(-25.f, 10.f, -30.f);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,true);
+    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    rtPopMatrix();
     
-    Material mat_cloud(/*ambient*/STColor3f(.5f,.5f,.5f),/*diffuse*/STColor3f(.5f,.5f,.5f),/*spec*/STColor3f(.5f,.5f,.5f),/*mirror*/STColor3f(.5f,.5f,.5f),/*shiness*/120.f);
-    rtMaterial(mat_cloud);
+    //Material mat_cloud(/*ambient*/STColor3f(.5f,.5f,.5f),/*diffuse*/STColor3f(.5f,.5f,.5f),/*spec*/STColor3f(.5f,.5f,.5f),/*mirror*/STColor3f(.5f,.5f,.5f),/*shiness*/120.f);
+    //rtMaterial(mat_cloud);
     //rtMaterial(mat_ground);
 
-    addCloud(-8, 14, 0, 1.2);
-    addCloud(15, 20, -10, 1.8);
+    //rtPointLight(STPoint3(-8.f,14.f,1.5f),STColor3f(1.f,1.f,1.f));
+    //addCloud(-8, 14, 0, 1.2);
+    //addCloud(15, 20, -10, 1.8);
     
     
     //DEPTH OF FIELD
-    //rtSetApeture(10.f);
-    //rtSetFocus(STPoint3(0.f, 0.f, 3.f));
+    rtSetApeture(.1f);
+    rtSetFocus(STPoint3(4.f, 17.f, 30.f));
     
     accel_structure=AABB_TREE;
     AABBTree* aabb_tree=new AABBTree(objects);
