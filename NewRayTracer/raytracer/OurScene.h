@@ -28,6 +28,7 @@ public:
     void initializeAssignment6();
     void initializeAssignment6b();
 
+    void addLake(STPoint3 center, double radius);
     void addCloud(int x, int y, int z, int size);
     void addClusteredObjects();
     void addUniformObjects();
