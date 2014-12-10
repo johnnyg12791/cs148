@@ -81,8 +81,8 @@ void OurScene::initializeAssignment6()
     
     rtPushMatrix();
     rtTranslate(-65.f, -8.f, -80.f);
-    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,true);
-    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/smoothballoon.obj",true,true);
+    rtTriangleMesh("../Meshes_Materials/bottle.obj",true,false);
     rtPopMatrix();
     
     //DEPTH OF FIELD
