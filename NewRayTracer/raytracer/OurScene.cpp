@@ -18,12 +18,13 @@ void OurScene::initializeAssignment6()
     rtOutput(/*width*/512,/*height*/512,/*path*/"../Standard_Tests/Assignment6f.png");
     rtBounceDepth(8);
     rtShadowBias(1e-4f);
-    rtSampleRate(4);
+    rtSampleRate(3);
     
     ////lighting
-    rtAmbientLight(STColor3f(.1f,.1f,.1f));
+    rtAmbientLight(STColor3f(.2f,.2f,.2f));
     //rtPointLight(STPoint3(3.f,12.f,10.f),STColor3f(1.f,1.f,1.f));
-    rtPointLight(STPoint3(10.f,40.f,60.f),STColor3f(1.f,1.f,1.f));
+    rtPointLight(STPoint3(10.f,40.f,60.f),STColor3f(.5f,.5f,.5f));
+    rtPointLight(STPoint3(9.f,35.f,55.f),STColor3f(.5f,.5f,.5f));
 
     //back wall(sky)
     Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.2f,.5f,.9f),STColor3f(),STColor3f(),30.f);
@@ -61,26 +62,26 @@ void OurScene::initializeAssignment6()
 
     rtPushMatrix();
     rtTranslate(4.f, 20.f, 25.f);
-    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
-    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,true);
+    rtTriangleMesh("../Meshes_Materials/bottle.obj",true,true);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/smoothballoon.obj",true,true);
     rtPopMatrix();
     
     rtPushMatrix();
     rtTranslate(5.f, 9.f, 10.f);
-    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,true);
-    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/smoothballoon.obj",true,true);
+    rtTriangleMesh("../Meshes_Materials/bottle.obj",true,true);
     rtPopMatrix();
     
     rtPushMatrix();
     rtTranslate(-10.f, 0.f, -5.f);
-    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,true);
-    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/smoothballoon.obj",true,true);
+    rtTriangleMesh("../Meshes_Materials/bottle.obj",true,true);
     rtPopMatrix();
     
     rtPushMatrix();
     rtTranslate(-25.f, 10.f, -30.f);
-    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,true);
-    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/smoothballoon.obj",true,true);
+    rtTriangleMesh("../Meshes_Materials/bottle.obj",true,true);
     rtPopMatrix();
     
     //Material mat_cloud(/*ambient*/STColor3f(.5f,.5f,.5f),/*diffuse*/STColor3f(.5f,.5f,.5f),/*spec*/STColor3f(.5f,.5f,.5f),/*mirror*/STColor3f(.5f,.5f,.5f),/*shiness*/120.f);
@@ -93,7 +94,7 @@ void OurScene::initializeAssignment6()
     
     
     //DEPTH OF FIELD
-    rtSetApeture(.1f);
+    rtSetApeture(.05f);
     rtSetFocus(STPoint3(4.f, 17.f, 30.f));
     
     accel_structure=AABB_TREE;
