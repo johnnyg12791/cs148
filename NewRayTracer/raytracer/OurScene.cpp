@@ -13,53 +13,48 @@ void OurScene::initializeAssignment6()
 {
     rtClear();
     
-    ////global settings
+    //Global settings   //Originally 15 in Z
     rtCamera(/*eye*/STPoint3(0.f,10.f,15.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(0.f,-10.f,-200.f),/*fov*/60.f,/*aspect*/1.f);
-    rtOutput(/*width*/512,/*height*/512,/*path*/"../Standard_Tests/Assignment6f.png");
+    rtOutput(512,512,"../Standard_Tests/Assignment6f.png");
     rtBounceDepth(8);
     rtShadowBias(1e-4f);
     rtSampleRate(3);
     
-    ////lighting
+    ////lightin
     rtAmbientLight(STColor3f(.2f,.2f,.2f));
     //rtPointLight(STPoint3(3.f,12.f,10.f),STColor3f(1.f,1.f,1.f));
     rtPointLight(STPoint3(10.f,40.f,60.f),STColor3f(.5f,.5f,.5f));
     rtPointLight(STPoint3(9.f,35.f,55.f),STColor3f(.5f,.5f,.5f));
 
-    //back wall(sky)
-    Material mat_wall(STColor3f(1.f,1.f,1.f),STColor3f(.2f,.5f,.9f),STColor3f(),STColor3f(),30.f);
-    rtMaterial(mat_wall);
-    //bottom left (x,y,z), (length, width)
-    //addBackgroundWall(STPoint3(-500.f,-200.f,-500.f),STVector2(1000.f,1000.f),true);
-    //Sky will go here
+    //Add the Sky
     rtPushMatrix();
     rtTranslate(0.f, 0.f, -1200.f);
-    rtScale(100, 100, 1);
+    rtScale(150, 150, 1);
     rtRotate(90.f, 0.f, 0.f);
     rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/sky.obj", true, false);
-
     rtPopMatrix();
     
-    
-    //ground (possible mountains)
-    //rtMaterial(mat_ground);
-    //Not exactly sure what these correspond to but....seems to work
-    //addGround(STPoint3(-500.f,-50.f,-500.f),STVector2(1000.f,1000.f),true);
+    //Add the Lake
+    //addLake(STPoint3(0,-12,-21), 5); //This gives us a circular lake type obj in the middle
+    rtPushMatrix();
+    addLake(STPoint3(-20, -11, -24), 17); //This puts the lake on the left side of the image
+    rtPopMatrix();
+
+    //Add the Mountains
     rtPushMatrix();
     rtTranslate(-25.f, -20.f, -35.f);
     rtScale(10.f, 10.f, 3.f);
-
-    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/mountain.obj", true, true);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/mountain3.obj", true, true);
     rtPopMatrix();
     
-    Material mat_glass(/*ambient*/STColor3f(.1f,.1f,.1f),/*diffuse*/STColor3f(),/*spec*/STColor3f(0.5f,0.5f,0.5f),/*mirror*/STColor3f(.2f,.2f,.2f),/*shiness*/30.f,/*refr*/STColor3f(.7f,.6f,.9f),/*sn*/1.2f);
+    Material mat_glass(STColor3f(.1f,.1f,.1f),STColor3f(),STColor3f(0.5f,0.5f,0.5f),STColor3f(.2f,.2f,.2f),30.f,STColor3f(.7f,.6f,.9f),1.2f);
     rtMaterial(mat_glass);
     //These next two lines add a slighly transparent shadow (based on the attenuation number)
     rtUseTransparentShadow(true);
     rtAttenuation(.8f);
     
     rtScale(.4f, .4f, .4f);
-
+    
     rtPushMatrix();
     rtTranslate(4.f, 20.f, 25.f);
     rtTriangleMesh("../Meshes_Materials/bottle.obj",true,true);
@@ -77,21 +72,18 @@ void OurScene::initializeAssignment6()
     rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/smoothballoon.obj",true,true);
     rtTriangleMesh("../Meshes_Materials/bottle.obj",true,true);
     rtPopMatrix();
-    
+     
     rtPushMatrix();
     rtTranslate(-25.f, 10.f, -30.f);
     rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/smoothballoon.obj",true,true);
     rtTriangleMesh("../Meshes_Materials/bottle.obj",true,true);
     rtPopMatrix();
     
-    //Material mat_cloud(/*ambient*/STColor3f(.5f,.5f,.5f),/*diffuse*/STColor3f(.5f,.5f,.5f),/*spec*/STColor3f(.5f,.5f,.5f),/*mirror*/STColor3f(.5f,.5f,.5f),/*shiness*/120.f);
-    //rtMaterial(mat_cloud);
-    //rtMaterial(mat_ground);
-
-    //rtPointLight(STPoint3(-8.f,14.f,1.5f),STColor3f(1.f,1.f,1.f));
-    //addCloud(-8, 14, 0, 1.2);
-    //addCloud(15, 20, -10, 1.8);
-    
+    rtPushMatrix();
+    rtTranslate(-65.f, -8.f, -80.f);
+    rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/balloonrope.obj",true,true);
+    rtTriangleMesh("../Meshes_Materials/bottlenotexture.obj",true,false);
+    rtPopMatrix();
     
     //DEPTH OF FIELD
     rtSetApeture(.05f);
@@ -100,6 +92,28 @@ void OurScene::initializeAssignment6()
     accel_structure=AABB_TREE;
     AABBTree* aabb_tree=new AABBTree(objects);
     aabb_trees.push_back(aabb_tree);
+}
+
+
+//This adds a lake to our scene, given a 3d point for center, and double radius
+void OurScene::addLake(STPoint3 center, double radius){
+    Material mat_metal(/*ambient*/STColor3f(.5f,.5f,.5f),
+                       /*diffuse*/STColor3f(.5f,.5f,.5f),
+                       /*spec*/STColor3f(.5f,.5f,.5f),
+                       /*mirror*/STColor3f(.5f,.5f,.5f),
+                       /*shiness*/120.f);
+    //Add the material
+    Material mat_water(/*ambient*/STColor3f(.5f,.5f,.5f),
+                       /*diffuse*/STColor3f(.1f,.35f,.9f),//This is color
+                       /*spec*/STColor3f(5.f,0.f,.0f),
+                       /*mirror*/STColor3f(.9f,.9f,.9f),
+                       /*shiness*/120.f,
+                       /*refraction*/STColor3f(.5f, .5f, .8f), //STColor3f(.9f, .3f, .1f)
+                       /*sn??*/.2f);
+    rtMaterial(mat_water);
+    //Create a cylinder (center of bottom, center of top)
+    rtCylinder(STPoint3(center.x,center.y-1.5,center.z), center, radius);
+
 }
 
 
