@@ -15,10 +15,10 @@ void OurScene::initializeAssignment6()
     
     //Global settings   //Originally 15 in Z
     rtCamera(/*eye*/STPoint3(0.f,10.f,15.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(0.f,-10.f,-200.f),/*fov*/60.f,/*aspect*/1.f);
-    rtOutput(512,512,"../Standard_Tests/Assignment6f.png");
+    rtOutput(512,512,"../Standard_Tests/Assignment6_final.png");
     rtBounceDepth(8);
     rtShadowBias(1e-4f);
-    rtSampleRate(3);
+    rtSampleRate(20);
     
     ////lightin
     rtAmbientLight(STColor3f(.2f,.2f,.2f));
