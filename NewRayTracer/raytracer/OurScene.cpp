@@ -14,7 +14,7 @@ void OurScene::initializeAssignment6()
     rtClear();
     
     rtCamera(/*eye*/STPoint3(0.f,10.f,20.f),/*up*/STVector3(0.f,1.f,0.f),/*lookat*/STPoint3(0.f,-10.f,-200.f),/*fov*/60.f,/*aspect*/1.f);
-    rtOutput(512,512,"../Standard_Tests/Assignment6_sr1.png");
+    rtOutput(512,512,"../Standard_Tests/Assignment6_sr2.png");
     rtBounceDepth(8);
     rtShadowBias(1e-4f);
     rtSampleRate(1);
@@ -26,6 +26,7 @@ void OurScene::initializeAssignment6()
     rtPointLight(STPoint3(9.f,39.f,59.f),STColor3f(.25f,.25f,.25f));
     rtPointLight(STPoint3(9.f,40.f,59.f),STColor3f(.25f,.25f,.25f));
     rtPointLight(STPoint3(10.f,39.f,60.f),STColor3f(.25f,.25f,.25f));
+   // rtPointLight(STPoint3(0.f,5.f,60.f),STColor3f(.25f,.25f,.25f));
 
     //Add the Sky
     rtPushMatrix();
@@ -38,7 +39,7 @@ void OurScene::initializeAssignment6()
     //Add the Lake
     //addLake(STPoint3(0,-12,-21), 5); //This gives us a circular lake type obj in the middle
     rtPushMatrix();
-    addLake(STPoint3(-18, -12, -24), 17); //This puts the lake on the left side of the image
+    addLake(STPoint3(-18, -11.5, -24), 19); //This puts the lake on the left side of the image
     rtPopMatrix();
 
     //Add the Mountains
@@ -48,14 +49,14 @@ void OurScene::initializeAssignment6()
     rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/mountain3.obj", true, true);
     rtPopMatrix();
     
-    Material mat_glass(STColor3f(.1f,.1f,.1f),STColor3f(),STColor3f(0.5f,0.5f,0.5f),STColor3f(.2f,.2f,.2f),30.f,STColor3f(.7f,.6f,.9f),1.2f);
+    Material mat_glass(STColor3f(.1f,.1f,.1f),STColor3f(),STColor3f(0.5f,0.5f,0.5f),STColor3f(.2f,.2f,.2f),30.f,STColor3f(1.f,1.f,1.f),1.2f);
     rtMaterial(mat_glass);
     //These next two lines add a slighly transparent shadow (based on the attenuation number)
     rtUseTransparentShadow(true);
     rtAttenuation(.8f);
     
     rtScale(.4f, .4f, .4f);
-    
+   
     rtPushMatrix();
     rtTranslate(4.5f, 21.f, 37.f);
     rtTriangleMesh("../Meshes_Materials/bottle.obj",true,true);
@@ -69,19 +70,19 @@ void OurScene::initializeAssignment6()
     rtPopMatrix();
     
     rtPushMatrix();
-    rtTranslate(-7.f, 0.f, 0.f);
+    rtTranslate(-7.f, 20.f, 10.f);
     rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/smoothballoon.obj",true,true);
     rtTriangleMesh("../Meshes_Materials/bottle.obj",true,true);
     rtPopMatrix();
      
     rtPushMatrix();
-    rtTranslate(-25.f, 10.f, -70.f);
+    rtTranslate(-40.f, -2.f, -80.f);
     rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/smoothballoon.obj",true,true);
     rtTriangleMesh("../Meshes_Materials/bottle.obj",true,true);
     rtPopMatrix();
     
     rtPushMatrix();
-    rtTranslate(-65.f, -8.f, -80.f);
+    rtTranslate(-65.f, -12.f, -80.f);
     rtTriangleMeshWithMaterialAndTexture("../Meshes_Materials/smoothballoon.obj",true,true);
     rtTriangleMesh("../Meshes_Materials/bottle.obj",true,false);
     rtPopMatrix();
@@ -106,13 +107,13 @@ void OurScene::addLake(STPoint3 center, double radius){
     //Add the material
     Material mat_glass(STColor3f(.1f,.1f,.1f),STColor3f(),STColor3f(0.5f,0.5f,0.5f),STColor3f(.2f,.2f,.2f),30.f,STColor3f(.7f,.6f,.9f),1.2f);
     //rtMaterial(mat_glass);
-    Material mat_water(/*ambient*/STColor3f(.5f,.5f,.5f),
-                       /*diffuse*/STColor3f(.5f,.5f,.5f),//This is color
-                       /*spec*/STColor3f(0.2f,0.2f,.2f),
-                       /*mirror*/STColor3f(.1f,.1f,.1f),
-                       /*shiness*/0.f,
-                       /*refraction*/STColor3f(.9f, .9f, .9f), //STColor3f(.9f, .3f, .1f)
-                       /*sn??*/.8f);
+    Material mat_water(/*ambient*/STColor3f(.6f,.6f,.6f),
+                       /*diffuse*/STColor3f(.2f,.2f,.9f),//This is color
+                       /*spec*/STColor3f(1.0f,1.0f,1.0f),
+                       /*mirror*/STColor3f(1.0f,1.0f,1.0f),
+                       /*shiness*/90.f,
+                       /*refraction*/STColor3f(.9f, .9f, 1.2f), //STColor3f(.9f, .3f, .1f)
+                       /*sn??*/.3f);
     rtMaterial(mat_water);
     //Create a cylinder (center of bottom, center of top)
     rtCylinder(STPoint3(center.x,center.y-1.5,center.z), center, radius);
